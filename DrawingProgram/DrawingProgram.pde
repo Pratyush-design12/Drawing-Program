@@ -15,11 +15,16 @@ color black= color(0);
 float masterStroke= 1;
 
 
+import processing.sound.*;
+SoundFile file;
+
 void setup(){
   size(500,500);
   smooth();
   background(255);
-  
+ 
+ song = new SoundFile(this, "Sample.mp3");
+  loop();
 }
 
 void draw(){
@@ -127,4 +132,6 @@ void draw(){
   }
   oldX=mouseX;
   oldY=mouseY;
-  }                 
+  }              
+  
+  
