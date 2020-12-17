@@ -14,17 +14,27 @@ color white= color(255);
 color black= color(0);
 float masterStroke= 1;
 
-
+// Background Audio
 import processing.sound.*;
 SoundFile file;
 
 void setup(){
-  size(500,500);
+  fullScreen();
   smooth();
   background(255);
+  
+  // Load a soundfile
+    //soundfile = new SoundFile(this, "Sample.mp3");
+    
+ // These methods return useful infos about the file
  
- song = new SoundFile(this, "Sample.mp3");
-  loop();
+  //println("SFSampleRate= " + soundfile.sampleRate() + " Hz");
+  //println("SFSamples= " + soundfile.frames() + " samples");
+  //println("SFDuration= " + soundfile.duration() + " seconds");
+    
+ // Play the file in a loop
+    //soundfile.loop();
+
 }
 
 void draw(){
