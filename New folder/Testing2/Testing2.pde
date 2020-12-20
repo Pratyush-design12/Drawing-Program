@@ -19,6 +19,7 @@ color black= color(0);
 float masterStroke= 1;
 boolean modeColorSelector=true; 
 color col1; 
+float EraserX, EraserY, EraserWidth, EraserHeight;
 
 // Background Audio
 import processing.sound.*;
@@ -65,9 +66,6 @@ void draw ()
       }
       if(mouseY>110 && mouseY<135){
         stroke(pink);
-      }
-      if(mouseY>135 && mouseY<160){
-        stroke(white);
       }
     }
     if(mouseX > 35 && mouseX < 60){
@@ -146,10 +144,19 @@ void draw ()
   line(450, 50, 500, 50);
   strokeWeight(8);
   line(450, 80, 500, 80);
-  strokeWeight(1);
-  fill(255);
-  rect(250, 10, 50, 50);
+  
+  // Eraser
+  EraserX = 250;
+  EraserY = 10;
+  EraserWidth = 50;
+  EraserHeight = 50;
+  strokeWeight(5);
+  fill(255); 
+  textDraw();
+  rect(EraserX, EraserY, EraserWidth, EraserHeight);
+  
 
+  strokeWeight(1);
   quitButtonX = width*18.3/19;
   quitButtonY = height*0.1/300;
   quitButtonWidth = width*1/27;
@@ -187,6 +194,8 @@ void draw ()
       50, height-120+50);
   }
 }
+
+
  
 void keyPressed() {
   if (key=='d') { 

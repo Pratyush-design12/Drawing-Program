@@ -1,6 +1,5 @@
-  
 String buttonText = "X";
-String buttonText1 = "Eraser";
+String buttonText1 = "Reset";
 PFont titleFont;
 
 void textSetup() { 
