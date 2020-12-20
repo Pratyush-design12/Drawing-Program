@@ -14,6 +14,7 @@ color white= color(255);
 color black= color(0);
 float masterStroke= 1;
 
+
 // Background Audio
 import processing.sound.*;
 SoundFile file;
@@ -23,17 +24,17 @@ void setup(){
   smooth();
   background(255);
   
-  // Load a soundfile
-    //soundfile = new SoundFile(this, "Sample.mp3");
+   //Load a soundfile
+    soundfile = new SoundFile(this, "Sample.mp3");
     
  // These methods return useful infos about the file
  
-  //println("SFSampleRate= " + soundfile.sampleRate() + " Hz");
-  //println("SFSamples= " + soundfile.frames() + " samples");
-  //println("SFDuration= " + soundfile.duration() + " seconds");
+  println("SFSampleRate= " + soundfile.sampleRate() + " Hz");
+  println("SFSamples= " + soundfile.frames() + " samples");
+  println("SFDuration= " + soundfile.duration() + " seconds");
     
  // Play the file in a loop
-    //soundfile.loop();
+    soundfile.loop();
 
 }
 
