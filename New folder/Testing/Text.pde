@@ -1,4 +1,4 @@
-String buttonText = "X";
+/*String buttonText = "X";
 String buttonText1 = "Reset";
 PFont titleFont;
 
