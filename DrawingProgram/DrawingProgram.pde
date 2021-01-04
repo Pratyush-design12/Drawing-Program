@@ -1,4 +1,3 @@
-
 color buttonColour, resetWhite=#FFFFFF;
 color circleRed = #FF0303;
 float quitButtonX, quitButtonY, quitButtonWidth, quitButtonHeight;
