@@ -1,326 +1,656 @@
-//Global variable
-//ColorPicker cp;
-float oldX;
-float oldY;
-color redC= color(255, 0, 0);
-color greenC= color(0, 255, 0);
-color blueC= color(0, 0, 255);
-color yellow= color(247, 240, 0);
-color orange= color(247, 112, 0);
-color violet= color(110, 0, 220);
-color blueGreen= color(0, 247, 146);
-color yellowGreen= color(157, 250, 0);
-color pink= color(255, 28, 97);
-color yellowOrange= color(255, 159, 3);
-color white= color(255);
-color black= color(0);
-float masterStroke= 1;
-boolean modeColorSelector=true; 
-color col1; 
-float EraserX, EraserY, EraserWidth, EraserHeight;
+//Global variables
 color buttonColour, resetWhite=#FFFFFF;
-color circleRed = #FF0303;
-float quitButtonX, quitButtonY, quitButtonWidth, quitButtonHeight;
-final int maxIterations = 50;  // that's how fast spraying happens
-FloodFill1 myFloodFill ;
+color black = #000000, white = #FFFFFF, blue = #0D00FF, red = #FF0000;
+color circleRed = #FF0303, yellow=#FFDA05;
+float ptDiameter, rectWidth, rectHeight;
+float pt1X, pt1Y, pt2X, pt2Y, pt3X, pt3Y, pt4X, pt4Y;
+float pt5X, pt5Y, pt6X, pt6Y, pt7X, pt7Y, pt8X, pt8Y;
+float pt9X, pt9Y, pt10X, pt10Y, pt11X, pt11Y, pt12X, pt12Y;
+float pt13X, pt13Y, pt14X, pt14Y,pt15X, pt15Y, pt16X, pt16Y;
+float button1X, button1Y, button1Width, button1Height;
+float button2X, button2Y, button2Width, button2Height;
+float button3X, button3Y, button3Width, button3Height;
+float button4X, button4Y, button4Width, button4Height;
+float button5X, button5Y, button5Width, button5Height;
+float button6X, button6Y, button6Width, button6Height;
+float button7X, button7Y, button7Width, button7Height;
+float button8X, button8Y, button8Width, button8Height;
+float button9X, button9Y, button9Width, button9Height;
+float button10X, button10Y, button10Width, button10Height;
+float button11X, button11Y, button11Width, button11Height;
+float button12X, button12Y, button12Width, button12Height;
+float button13X, button13Y, button13Width, button13Height;
+float button14X, button14Y, button14Width, button14Height;
+float button15X, button15Y, button15Width, button15Height;
+float button16X, button16Y, button16Width, button16Height;
+float button17X, button17Y, button17Width, button17Height;
+float button18X, button18Y, button18Width, button18Height;
+PImage pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8, pic9;
+Boolean turnOn1=false, turnOn2=false, turnOn3=false, turnOn4=false, turnOn5=false, turnOn6=false, turnOn7=false, turnOn8=false, turnOn9=false;
 
-// Background Audio
+// Images Variable (float)
+
+float rectXPic1, rectYPic1, rectWidthPic1, rectHeightPic1, rectXPic2, rectYPic2, rectWidthPic2, rectHeightPic2;
+float picImageWidthRatio1, picImageHeightRatio1, picImageWidthRatio2, picImageHeightRatio2;
+float picX1, picY1, picWidth1, picHeight1, picX2, picY2, picWidth2, picHeight2;
+float rectXPic3, rectYPic3, rectWidthPic3, rectHeightPic3, rectXPic4, rectYPic4, rectWidthPic4, rectHeightPic4;
+float picImageWidthRatio3, picImageHeightRatio3, picImageWidthRatio4, picImageHeightRatio4;
+float picX3, picY3, picWidth3, picHeight3, picX4, picY4, picWidth4, picHeight4;
+float rectXPic5, rectYPic5, rectWidthPic5, rectHeightPic5, rectXPic6, rectYPic6, rectWidthPic6, rectHeightPic6;
+float picImageWidthRatio5, picImageHeightRatio5, picImageWidthRatio6, picImageHeightRatio6;
+float picX5, picY5, picWidth5, picHeight5, picX6, picY6, picWidth6, picHeight6;
+float rectXPic7, rectYPic7, rectWidthPic7, rectHeightPic7, rectXPic8, rectYPic8, rectWidthPic8, rectHeightPic8;
+float picImageWidthRatio7, picImageHeightRatio7, picImageWidthRatio8, picImageHeightRatio8;
+float picX7, picY7, picWidth7, picHeight7, picX8, picY8, picWidth8, picHeight8;
+float rectXPic9, rectYPic9, rectWidthPic9, rectHeightPic9;
+float picImageWidthRatio9, picImageHeightRatio9;
+float picX9, picY9, picWidth9, picHeight9;
+
 import processing.sound.*;
-SoundFile file;
 
-void setup(){
+  // Quit button variables
+  float quitButtonX, quitButtonY, quitButtonWidth, quitButtonHeight;
+  
+  SoundFile file;
+  //put your audio file name here
+  String audioName = "sample.mp3";
+  String path;
+  
+  void setup() {
   fullScreen();
-  frameRate( 100 );
-  smooth();
-  background(white);
-  noFill();
-  strokeWeight(23);
-  ellipse(190, 190, 90, 90);
-  rect (390, 390, 90, 90);
+  images();
+  textSetup();
+  population();
   
-  stroke(255, 2, 2); // red
-} // func
-//
+  //Load a soundfile 
   
-   /*Load a soundfile
-    soundfile = new SoundFile(this, "Sample.mp3");
-    
- // These methods return useful infos about the file
- 
-  println("SFSampleRate= " + soundfile.sampleRate() + " Hz");
-  println("SFSamples= " + soundfile.frames() + " samples");
-  println("SFDuration= " + soundfile.duration() + " seconds");
-    
- // Play the file in a loop
-    soundfile.loop();
-*/
-  //cp = new ColorPicker( 220, 220, 250, 250, 255 );
-
- 
-void draw ()
-{
-   loadPixels();
-  myFloodFill = new FloodFill1();
-  if (mousePressed) {
-    myFloodFill.DoFill(mouseX, mouseY, color(255, 0, 0));
-    updatePixels();
+    path = sketchPath("Sample.mp3");
+    file = new SoundFile(this, path);
+    file.play(); 
   }
-}
-// =====================================================================
-// I create a class to share variables between the functions...
-public class FloodFill1
-{
-  protected int iw; // Image width
-  protected int ih; // Image height
-  protected color[] imagePixels;
-  protected color backColor; // Color found at given position
-  protected color fillColor; // Color to apply
-  // Stack is almost deprecated and slow (synchronized).
-  // I would use Deque but that's Java 1.6, excluding current (mid-2009) Macs...
-  protected ArrayList stack = new ArrayList();
-  //
-  public FloodFill1()
-  {
-    iw = width;
-    ih = height;
-    imagePixels = pixels; // Assume loadPixels have been done before
-  }
-  //
-  public FloodFill1(PImage imageToProcess)
-  {
-    iw = imageToProcess.width;
-    ih = imageToProcess.height;
-    imagePixels = imageToProcess.pixels; // Assume loadPixels have been done before if sketch image
-  }
-  //
-  public void DoFill(int startX, int startY, color fc)
-  {
-    // start filling
-    fillColor = fc;
-    backColor = imagePixels[startX + startY * iw];
-    // don't run if fill color is the same as background one
-    if (fillColor == backColor)
-      return;
-    stack.add(new PVector(startX, startY));
-    while (stack.size () > 0)
-    {
-      PVector p = (PVector) stack.remove(stack.size() - 1);
-      // Go left
-      FillScanLine((int) p.x, (int) p.y, -1);
-      // Go right
-      FillScanLine((int) p.x + 1, (int) p.y, 1);
-    }
-  }
-  //
-  protected void FillScanLine(int x, int y, int dir)
-  {
-    // compute current index in pixel buffer array
-    int idx = x + y * iw;
-    boolean inColorRunAbove = false;
-    boolean inColorRunBelow = false;
-    // fill until boundary in current scanline...
-    // checking neighbouring pixel rows
-    while (x >= 0 && x < iw && imagePixels[idx] == backColor)
-    {
-      imagePixels[idx] = fillColor;
-      if (y > 0) // Not on top line
-      {
-        if (imagePixels[idx - iw] == backColor)
-        {
-          if (!inColorRunAbove)
-          {
-            // The above pixel needs to be flooded too, we memorize the fact.
-            // Only once per run of pixels of back color (hence the inColorRunAbove test)
-            stack.add(new PVector(x, y-1));
-            inColorRunAbove = true;
-          }
-        }
-        else // End of color run (or none)
-        {
-          inColorRunAbove = false;
-        }
-      }
-      if (y < ih - 1) // Not on bottom line
-      {
-        if (imagePixels[idx + iw] == backColor)
-        {
-          if (!inColorRunBelow)
-          {
-            // Idem with pixel below, remember to process there
-            stack.add(new PVector(x, y + 1));
-            inColorRunBelow = true;
-          }
-        }
-        else // End of color run (or none)
-        {
-          inColorRunBelow = false;
-        }
-      }
-      // Continue in given direction
-      x += dir;
-      idx += dir;
-    } //
-  } // func
-}// class
-// ----------------------------------------------------------
-
-/*if(mousePressed){
-      if(mouseX > 450 && mouseX <500){
-        brush (); */
-  {
- if(mousePressed) {
-    if(mouseX > 10 && mouseX < 35){
-      if(mouseY >10 && mouseY < 35){
-        stroke(redC);
-      }
-      if(mouseY>35 && mouseY < 60){
-        stroke(greenC);
-      }
-      if(mouseY>60 && mouseY<85){
-        stroke(orange);
-      }
-      if(mouseY>85 && mouseY<110){
-        stroke(blueGreen);
-      }
-      if(mouseY>110 && mouseY<135){
-        stroke(pink);
-      }
-      if(mouseY>135 && mouseY<160){
-        stroke(white);
-      }
-    }
-    if(mouseX > 35 && mouseX < 60){
-      if( mouseY > 10 && mouseY <35){
-        stroke(blueC);
-      }
-      if(mouseY > 35 && mouseY < 50){
-        stroke(yellow);
-      }
-      if(mouseY > 60 && mouseY < 85){
-        stroke(violet);
-      }
-      if(mouseY >85 && mouseY < 110) {
-        stroke(yellowGreen);
-      }
-      if(mouseY > 110 && mouseY <135){
-        stroke(yellowOrange);
-      }
-      if(mouseY >135 && mouseY <160){
-        stroke(black);
-      }
-    }
-    if(mousePressed){
-      if(mouseX > 450 && mouseX <500){
-        if(mouseY >10 && mouseY <40){
-          masterStroke= 1; }
-        }
-      if(mouseX > 450 && mouseX <500){
-        if(mouseY >40 && mouseY <70){
-          masterStroke= 4; }
-      }
-      if(mouseX > 450 && mouseX <500){
-        if(mouseY > 70 && mouseY <100){
-          masterStroke= 7;
-      }  
-    }
-    strokeWeight(masterStroke);
-    }
-  if(mousePressed){
-    if(mouseX > 250 && mouseX <300){
-      if (mouseY > 10 && mouseY <60){
-        background(255);
-      }
-    }
-  }
-  if(mousePressed){
-  line(mouseX, mouseY, oldX, oldY);
-  }
-  }
-  oldX=mouseX;
-  oldY=mouseY; 
   
- //Populating Variables
-  strokeWeight(1.3);
-  fill(redC );
-  rect(10, 10, 25, 25 );
-  fill(blueC );
-  rect(35, 10, 25, 25 );
-  fill(greenC);
-  rect(10, 35, 25, 25);
-  fill(yellow);
-  rect(35, 35, 25, 25);
-  fill(orange);
-  rect(10, 60, 25, 25);
-  fill(violet);
-  rect(35, 60, 25, 25);
-  fill(blueGreen);
-  rect(10, 85, 25, 25);
-  fill(yellowGreen);
-  rect(35, 85, 25, 25);
-  fill(pink);
-  rect(10, 110, 25, 25);
-  fill(yellowOrange);
-  rect(35, 110, 25, 25);
+ void draw() {
+   
   fill(white);
-  rect(10, 135, 25, 25);
+  rect(pt1X, pt1Y, rectWidth, rectHeight);
+  rect(pt2X, pt2Y, rectWidth, rectHeight);
+  rect(pt3X, pt3Y, rectWidth, rectHeight);
+  //
+  rect(pt5X, pt5Y, rectWidth, rectHeight);
+  rect(pt6X, pt6Y, rectWidth, rectHeight);
+  rect(pt7X, pt7Y, rectWidth, rectHeight);
+  //
+  rect(pt9X, pt9Y, rectWidth, rectHeight);
+  rect(pt10X, pt10Y, rectWidth, rectHeight);
+  rect(pt11X, pt11Y, rectWidth, rectHeight);
+  //
+  fill(blue);
+  //
+  ellipse(pt1X, pt1Y, ptDiameter, ptDiameter);
+  ellipse(pt2X, pt2Y, ptDiameter, ptDiameter);
+  ellipse(pt3X, pt3Y, ptDiameter, ptDiameter);
+  ellipse(pt5X, pt5Y, ptDiameter, ptDiameter);
+  ellipse(pt6X, pt6Y, ptDiameter, ptDiameter);
+  ellipse(pt7X, pt7Y, ptDiameter, ptDiameter);
+  ellipse(pt9X, pt9Y, ptDiameter, ptDiameter);
+  ellipse(pt10X, pt10Y, ptDiameter, ptDiameter);
+  ellipse(pt11X, pt11Y, ptDiameter, ptDiameter);
+  //
+  fill(blue);
+  ellipse(pt4X, pt4Y, ptDiameter, ptDiameter);
+  ellipse(pt8X, pt8Y, ptDiameter, ptDiameter);
+  ellipse(pt12X, pt12Y, ptDiameter, ptDiameter);
+  ellipse(pt13X, pt13Y, ptDiameter, ptDiameter);
+  ellipse(pt14X, pt14Y, ptDiameter, ptDiameter);
+  ellipse(pt15X, pt15Y, ptDiameter, ptDiameter);
+  ellipse(pt16X, pt16Y, ptDiameter, ptDiameter);
+  fill(white);
+  
+  // Button #1-9 Draw
+  
   fill(black);
-  rect(35, 135, 25, 25);
-  line(450, 30, 500, 30);
-  strokeWeight(4);
-  line(450, 50, 500, 50);
-  strokeWeight(8);
-  line(450, 80, 500, 80);
+  rect(button1X, button1Y, button1Width, button1Height);
 
-// Reset
-  EraserX = 250;
-  EraserY = 10;
-  EraserWidth = 50;
-  EraserHeight = 50;
-  strokeWeight(5);
-  fill(255); 
-  //textDraw();
-  rect(EraserX, EraserY, EraserWidth, EraserHeight);
   
-  //Exit Button
-  strokeWeight(1);
-  quitButtonX = width*18.3/19;
-  quitButtonY = height*0.1/300;
-  quitButtonWidth = width*1/27;
-  quitButtonHeight = height*1/27;
+  fill(black);
+  rect(button2X, button2Y, button2Width, button2Height);
+
   
-   if ( mouseX>quitButtonX && mouseX<quitButtonX+quitButtonWidth && mouseY>quitButtonY && mouseY<quitButtonY+quitButtonHeight ) { 
+  fill(black);
+  rect(button3X, button3Y, button3Width, button3Height);
+
+  
+  fill(black);
+  rect(button4X, button4Y, button4Width, button4Height);
+
+  
+  fill(black);
+  rect(button5X, button5Y, button5Width, button5Height);
+
+  
+  fill(black);
+  rect(button6X, button6Y, button6Width, button6Height);
+ 
+  
+  fill(black);
+  rect(button7X, button7Y, button7Width, button7Height);
+
+  
+  fill(black);
+  rect(button8X, button8Y, button8Width, button8Height);
+
+  
+  fill(black);
+  rect(button9X, button9Y, button9Width, button9Height);
+
+  //
+
+  // If statements for images -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+  
+  if (turnOn1 == true && turnOn2 == false && turnOn3 == false && turnOn4 == false && turnOn5 == false && turnOn6 == false && turnOn7 == false && turnOn8 == false && turnOn9 == false) rect(rectXPic1, rectYPic1, rectWidthPic1, rectHeightPic1);
+  if (turnOn1 == true && turnOn2 == false && turnOn3 == false && turnOn4 == false && turnOn5 == false && turnOn6 == false && turnOn7 == false && turnOn8 == false && turnOn9 == false) image(pic1, picX1, picY1, picWidth1, picHeight1);
+  //
+  if (turnOn1 == false && turnOn2 == true && turnOn3 == false && turnOn4 == false && turnOn5 == false && turnOn6 == false && turnOn7 == false && turnOn8 == false && turnOn9 == false) rect(rectXPic2, rectYPic2, rectWidthPic2, rectHeightPic2);
+  if (turnOn1 == false && turnOn2 == true && turnOn3 == false && turnOn4 == false && turnOn5 == false && turnOn6 == false && turnOn7 == false && turnOn8 == false && turnOn9 == false) image(pic2, picX2, picY2, picWidth2, picHeight2);
+  //
+  if (turnOn1 == false && turnOn2 == false && turnOn3 == true && turnOn4 == false && turnOn5 == false && turnOn6 == false && turnOn7 == false && turnOn8 == false && turnOn9 == false) rect(rectXPic3, rectYPic3, rectWidthPic3, rectHeightPic3);
+  if (turnOn1 == false && turnOn2 == false && turnOn3 == true && turnOn4 == false && turnOn5 == false && turnOn6 == false && turnOn7 == false && turnOn8 == false && turnOn9 == false) image(pic3, picX3, picY3, picWidth3, picHeight3);
+  //
+  if (turnOn1 == false && turnOn2 == false && turnOn3 == false && turnOn4 == true && turnOn5 == false && turnOn6 == false && turnOn7 == false && turnOn8 == false && turnOn9 == false) rect(rectXPic4, rectYPic4, rectWidthPic4, rectHeightPic4);
+  if (turnOn1 == false && turnOn2 == false && turnOn3 == false && turnOn4 == true && turnOn5 == false && turnOn6 == false && turnOn7 == false && turnOn8 == false && turnOn9 == false) image(pic4, picX4, picY4, picWidth4, picHeight4);
+  //
+  if (turnOn1 == false && turnOn2 == false && turnOn3 == false && turnOn4 == false && turnOn5 == true && turnOn6 == false && turnOn7 == false && turnOn8 == false && turnOn9 == false) rect(rectXPic5, rectYPic5, rectWidthPic5, rectHeightPic5);
+  if (turnOn1 == false && turnOn2 == false && turnOn3 == false && turnOn4 == false && turnOn5 == true && turnOn6 == false && turnOn7 == false && turnOn8 == false && turnOn9 == false) image(pic5, picX5, picY5, picWidth5, picHeight5);
+  //
+  if (turnOn1 == false && turnOn2 == false && turnOn3 == false && turnOn4 == false && turnOn5 == false && turnOn6 == true && turnOn7 == false && turnOn8 == false && turnOn9 == false) rect(rectXPic6, rectYPic6, rectWidthPic6, rectHeightPic6);
+  if (turnOn1 == false && turnOn2 == false && turnOn3 == false && turnOn4 == false && turnOn5 == false && turnOn6 == true && turnOn7 == false && turnOn8 == false && turnOn9 == false) image(pic6, picX6, picY6, picWidth6, picHeight6);
+  //
+  if (turnOn1 == false && turnOn2 == false && turnOn3 == false && turnOn4 == false && turnOn5 == false && turnOn6 == false && turnOn7 == true && turnOn8 == false && turnOn9 == false) rect(rectXPic7, rectYPic7, rectWidthPic7, rectHeightPic7);
+  if (turnOn1 == false && turnOn2 == false && turnOn3 == false && turnOn4 == false && turnOn5 == false && turnOn6 == false && turnOn7 == true && turnOn8 == false && turnOn9 == false) image(pic7, picX7, picY7, picWidth7, picHeight7);
+  //
+  if (turnOn1 == false && turnOn2 == false && turnOn3 == false && turnOn4 == false && turnOn5 == false && turnOn6 == false && turnOn7 == false && turnOn8 == true && turnOn9 == false) rect(rectXPic8, rectYPic8, rectWidthPic8, rectHeightPic8);
+  if (turnOn1 == false && turnOn2 == false && turnOn3 == false && turnOn4 == false && turnOn5 == false && turnOn6 == false && turnOn7 == false && turnOn8 == true && turnOn9 == false) image(pic8, picX8, picY8, picWidth8, picHeight8);
+  //
+  if (turnOn1 == false && turnOn2 == false && turnOn3 == false && turnOn4 == false && turnOn5 == false && turnOn6 == false && turnOn7 == false && turnOn8 == false && turnOn9 == true) rect(rectXPic9, rectYPic9, rectWidthPic9, rectHeightPic9);
+  if (turnOn1 == false && turnOn2 == false && turnOn3 == false && turnOn4 == false && turnOn5 == false && turnOn6 == false && turnOn7 == false && turnOn8 == false && turnOn9 == true) image(pic9, picX9, picY9, picWidth9, picHeight9);
+ 
+ //------------------------------------------------------------------------------------------------------------
+   
+   //Quit Button (Draw)
+  
+  if ( mouseX>quitButtonX && mouseX<quitButtonX+quitButtonWidth && mouseY>quitButtonY && mouseY<quitButtonY+quitButtonHeight ) { 
     buttonColour = circleRed;
   } else { 
     buttonColour = resetWhite;
   } 
   fill(buttonColour);
   rect(quitButtonX, quitButtonY, quitButtonWidth, quitButtonHeight);
-  //textDraw();
-  fill(black); }
-
+  textDraw();
+  fill(black);
+  //
+  
+  
+ }
 
 void mousePressed() {
+  // Press to Exit
   if ( mouseX>quitButtonX && mouseX<quitButtonX+quitButtonWidth && mouseY>quitButtonY && mouseY<quitButtonY+quitButtonHeight ) exit();
+ 
+ 
+if (mouseX>button1X && mouseX<button1X+button1Width && mouseY>button1Y && mouseY<button1Y+button1Height )
+
+   if (turnOn1 == true) {
      
+     turnOn1 = false;
+     turnOn2 = true;
+     turnOn3 = true;
+     turnOn4 = true;
+     turnOn5 = true;
+     turnOn6 = true;
+     turnOn7 = true;
+     turnOn8 = true;
+     turnOn9 = true;
+     
+   } else {
+     
+     turnOn1 = true;
+     turnOn2 = false;
+     turnOn3 = false;
+     turnOn4 = false;
+     turnOn5 = false;
+     turnOn6 = false;
+     turnOn7 = false;
+     turnOn8 = false;
+     turnOn9 = false;
+     
+     println("Btn 1 activated");
+   }
+
+
+ if (mouseX>button2X && mouseX<button2X+button2Width && mouseY>button2Y && mouseY<button2Y+button2Height )
+
+
+   if (turnOn2 == true) {
+     turnOn1 = true;
+     turnOn2 = false;
+     turnOn3 = true;
+     turnOn4 = true;
+     turnOn5 = true;
+     turnOn6 = true;
+     turnOn7 = true;
+     turnOn8 = true;
+     turnOn9 = true;
+
+ } else {
+
+     turnOn1 = false;
+     turnOn2 = true;
+     turnOn3 = false;
+     turnOn4 = false;
+     turnOn5 = false;
+     turnOn6 = false;
+     turnOn7 = false;
+     turnOn8 = false;
+     turnOn9 = false;
+     
+     println("Btn 2 activated");
+     
+   }
+
+ if (mouseX>button3X && mouseX<button3X+button3Width && mouseY>button3Y && mouseY<button3Y+button3Height )
+
+
+   if (turnOn3 == true) {
+     turnOn1 = true;
+     turnOn2 = true;
+     turnOn3 = false;
+     turnOn4 = true;
+     turnOn5 = true;
+     turnOn6 = true;
+     turnOn7 = true;
+     turnOn8 = true;
+     turnOn9 = true;
+     
+   } else {
+     
+     turnOn1 = false;
+     turnOn2 = false;
+     turnOn3 = true;
+     turnOn4 = false;
+     turnOn5 = false;
+     turnOn6 = false;
+     turnOn7 = false;
+     turnOn8 = false;
+     turnOn9 = false;
+
+   println("Btn 3 activated");
+   
+   }
+
+
+ if (mouseX>button4X && mouseX<button4X+button4Width && mouseY>button4Y && mouseY<button4Y+button4Height )
+
+
+   if (turnOn4 == true) {
+     turnOn1 = true;
+     turnOn2 = true;
+     turnOn3 = true;
+     turnOn4 = false;
+     turnOn5 = true;
+     turnOn6 = true;
+     turnOn7 = true;
+     turnOn8 = true;
+     turnOn9 = true;
+
+   } else {
+
+     turnOn1 = false;
+     turnOn2 = false;
+     turnOn3 = false;
+     turnOn4 = true;
+     turnOn5 = false;
+     turnOn6 = false;
+     turnOn7 = false;
+     turnOn8 = false;
+     turnOn9 = false;
+     
+    println("Btn 4 activated");
+
+   }
+
+
+ if (mouseX>button5X && mouseX<button5X+button5Width && mouseY>button5Y && mouseY<button5Y+button5Height )
+
+
+   if (turnOn5 == true) {
+
+
+     turnOn1 = true;
+
+
+     turnOn2 = true;
+
+
+     turnOn3 = true;
+
+
+     turnOn4 = true;
+
+
+     turnOn5 = false;
+
+
+     turnOn6 = true;
+
+
+     turnOn7 = true;
+
+
+     turnOn8 = true;
+
+
+     turnOn9 = true;
+
+
+   } else {
+
+
+     turnOn1 = false;
+
+
+     turnOn2 = false;
+
+
+     turnOn3 = false;
+
+
+     turnOn4 = false;
+
+
+     turnOn5 = true;
+
+
+     turnOn6 = false;
+
+
+     turnOn7 = false;
+
+
+     turnOn8 = false;
+
+
+     turnOn9 = false;
+     
+    println("Btn 5 activated");
+
+   }
+
+
+ if (mouseX>button6X && mouseX<button6X+button6Width && mouseY>button6Y && mouseY<button6Y+button6Height )
+
+
+   if (turnOn6 == true) {
+
+
+     turnOn1 = true;
+
+
+     turnOn2 = true;
+
+
+     turnOn3 = true;
+
+
+     turnOn4 = true;
+
+
+     turnOn5 = true;
+
+
+     turnOn6 = false;
+
+
+     turnOn7 = true;
+
+
+     turnOn8 = true;
+
+
+     turnOn9 = true;
+
+
+   } else {
+
+
+     turnOn1 = false;
+
+
+     turnOn2 = false;
+
+
+     turnOn3 = false;
+
+
+     turnOn4 = false;
+
+
+     turnOn5 = false;
+
+
+     turnOn6 = true;
+
+
+     turnOn7 = false;
+
+
+     turnOn8 = false;
+
+
+     turnOn9 = false;
+     
+         println("Btn 6 activated");
+   }
+
+ if (mouseX>button7X && mouseX<button7X+button7Width && mouseY>button7Y && mouseY<button7Y+button7Height )
+
+
+   if (turnOn7 == true) {
+
+
+     turnOn1 = true;
+
+
+     turnOn2 = true;
+
+
+     turnOn3 = true;
+
+
+     turnOn4 = true;
+
+
+     turnOn5 = true;
+
+
+     turnOn6 = true;
+
+
+     turnOn7 = true;
+
+
+     turnOn8 = false;
+
+
+     turnOn9 = true;
+
+
+   } else {
+
+
+     turnOn1 = false;
+
+
+     turnOn2 = false;
+
+
+     turnOn3 = false;
+
+
+     turnOn4 = false;
+
+
+     turnOn5 = false;
+
+
+     turnOn6 = false;
+
+
+     turnOn7 = true;
+
+
+     turnOn8 = false;
+
+
+     turnOn9 = false;
+     
+         println("Btn 7 activated");
+
+   }
+
+
+ if (mouseX>button8X && mouseX<button8X+button8Width && mouseY>button8Y && mouseY<button8Y+button8Height )
+
+
+   if (turnOn8 == true) {
+
+
+     turnOn1 = true;
+
+
+     turnOn2 = true;
+
+
+     turnOn3 = true;
+
+
+     turnOn4 = true;
+
+
+     turnOn5 = true;
+
+
+     turnOn6 = true;
+
+
+     turnOn7 = true;
+
+
+     turnOn8 = false;
+
+
+     turnOn9 = true;
+
+
+   } else {
+
+
+     turnOn1 = false;
+
+
+     turnOn2 = false;
+
+
+     turnOn3 = false;
+
+
+     turnOn4 = false;
+
+
+     turnOn5 = false;
+
+
+     turnOn6 = false;
+
+
+     turnOn7 = false;
+
+
+     turnOn8 = true;
+
+
+     turnOn9 = false;
+     
+         println("Btn 8 activated");
+
+   }
+
+
+ if (mouseX>button9X && mouseX<button9X+button9Width && mouseY>button9Y && mouseY<button9Y+button9Height )
+
+
+   if (turnOn9 == true) {
+
+
+     turnOn1 = true;
+
+
+     turnOn2 = true;
+
+
+     turnOn3 = true;
+
+
+     turnOn4 = true;
+
+
+     turnOn5 = true;
+
+
+     turnOn6 = true;
+
+
+     turnOn7 = true;
+
+
+     turnOn8 = true;
+
+
+     turnOn9 = false;
+
+
+   } else {
+
+
+     turnOn1 = false;
+
+
+     turnOn2 = false;
+
+
+     turnOn3 = false;
+
+
+     turnOn4 = false;
+
+
+     turnOn5 = false;
+
+
+     turnOn6 = false;
+
+
+     turnOn7 = false;
+
+
+     turnOn8 = false;
+
+
+     turnOn9 = true;
+
+    println("Btn 9 activated");
+
+   }
+
 }
 
-void brush () {
-  int width1=30; // that be the width of your brush
-  //
-  float radx;   // Radius
-  float rady;
-  float angle1; // angle
-  float x;      // result
-  float y;
-  //
-  for (int i=0; i < maxIterations; i++) {
-    radx=random(width1);
-    rady=random(width1);
-    angle1= random(359);
-    //
-    x=(radx*cos(radians(angle1)))+mouseX;
-    y=(radx*sin(radians(angle1)))+mouseY;
-    //
-    point(x, y);
-  }
-} // func
+ 
