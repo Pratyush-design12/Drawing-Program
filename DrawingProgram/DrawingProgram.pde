@@ -1,3 +1,15 @@
+
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
+
+
+Minim minim;
+float drawingSurfaceX, drawingSurfaceY, drawingSurfaceWidth, drawingSurfaceHeight;
+float drawingDiameter;
 color buttonColour, resetWhite=#FFFFFF;
 color circleRed = #FF0303;
 float quitButtonX, quitButtonY, quitButtonWidth, quitButtonHeight;
@@ -16,7 +28,9 @@ color yellowOrange= color(255, 159, 3);
 color white= color(255);
 color black= color(0);
 float masterStroke= 1;
-
+//AudioPlayer[] song = new AudioPlayer[numberOfSongs];
+//AudioMetaData[] songMetaData = new AudioMetaData[numberOfSongs];
+float PauseButtonX1, PauseButtonY1, PauseButtonDiameter;
 
   import processing.sound.*;
   
@@ -29,17 +43,29 @@ void setup()
 {
   fullScreen();
   smooth();
-  background(255);
+  background(#A29F9F);
 
   
   //Load a soundfile 
   
     path = sketchPath("Sample.mp3");
     file = new SoundFile(this, path);
-    file.play(); 
+    file.play();
+    
+      
+  drawingSurfaceX = width*0;
+  drawingSurfaceY = height*0;
+  drawingSurfaceWidth = width*3/4;
+  drawingSurfaceHeight = height*4/5;
+  fill(white);
+  
+   rect(drawingSurfaceX, drawingSurfaceY, drawingSurfaceWidth, drawingSurfaceHeight);
+  
 }
 
+
 void draw(){
+  
   
   
   strokeWeight(1);
@@ -136,7 +162,7 @@ void draw(){
   if(mousePressed){
     if(mouseX > 250 && mouseX <300){
       if (mouseY > 10 && mouseY <60){
-        background(255);
+         rect(drawingSurfaceX, drawingSurfaceY, drawingSurfaceWidth, drawingSurfaceHeight);
       }
     }
   }
