@@ -12,7 +12,6 @@ float drawingSurfaceX, drawingSurfaceY, drawingSurfaceWidth, drawingSurfaceHeigh
 float drawingDiameter;
 color buttonColour, resetWhite=#FFFFFF;
 color circleRed = #FF0303;
-float quitButtonX, quitButtonY, quitButtonWidth, quitButtonHeight;
 float oldX;
 float oldY;
 color redC= color(255, 0, 0);
@@ -32,31 +31,31 @@ float masterStroke= 1;
 //AudioMetaData[] songMetaData = new AudioMetaData[numberOfSongs];
 float PauseButtonX1, PauseButtonY1, PauseButtonDiameter;
 
-  import processing.sound.*;
-  
-  SoundFile file;
-  //put your audio file name here
-  String audioName = "sample.mp3";
-  String path;
-  
+//Global Variables 
+AudioPlayer song1;
+
 void setup()
 {
   fullScreen();
   smooth();
   background(#A29F9F);
 
+  minim = new Minim(this);
+  song1 = minim.loadFile("Sample.mp3");
+  song1.play();
+  
+  quitButtonSetup();
+
+
   
   //Load a soundfile 
   
-    path = sketchPath("Sample.mp3");
-    file = new SoundFile(this, path);
-    file.play();
-    
+ 
       
-  drawingSurfaceX = width*0;
-  drawingSurfaceY = height*0;
-  drawingSurfaceWidth = width*3/4;
-  drawingSurfaceHeight = height*4/5;
+  drawingSurfaceX = width*1/11;
+  drawingSurfaceY = height*0.08;
+  drawingSurfaceWidth = width*8/9;
+  drawingSurfaceHeight = height*9/10;
   fill(white);
   
    rect(drawingSurfaceX, drawingSurfaceY, drawingSurfaceWidth, drawingSurfaceHeight);
@@ -162,7 +161,7 @@ void draw(){
   if(mousePressed){
     if(mouseX > 250 && mouseX <300){
       if (mouseY > 10 && mouseY <60){
-         rect(drawingSurfaceX, drawingSurfaceY, drawingSurfaceWidth, drawingSurfaceHeight);
+        rect(drawingSurfaceX, drawingSurfaceY, drawingSurfaceWidth, drawingSurfaceHeight);
       }
     }
   }
@@ -170,31 +169,46 @@ void draw(){
   line(mouseX, mouseY, oldX, oldY);
   }
   }
-  oldX=mouseX;
-  oldY=mouseY;
+  oldX=pmouseX;
+  oldY=pmouseY;
   
-  //Quit Button
-   strokeWeight(1);
-  quitButtonX = width*18.3/19;
-  quitButtonY = height*0.1/300;
-  quitButtonWidth = width*1/27;
-  quitButtonHeight = height*1/27;
-  
-   if ( mouseX>quitButtonX && mouseX<quitButtonX+quitButtonWidth && mouseY>quitButtonY && mouseY<quitButtonY+quitButtonHeight ) { 
-    buttonColour = circleRed;
-  } else { 
-    buttonColour = resetWhite;
-  } 
-  fill(buttonColour);
-  rect(quitButtonX, quitButtonY, quitButtonWidth, quitButtonHeight);
-  //textDraw();
- // fill(black);
+  quitButtonDraw();
   
  }              
   
-  void mousePressed() {
-  if ( mouseX>quitButtonX && mouseX<quitButtonX+quitButtonWidth && mouseY>quitButtonY && mouseY<quitButtonY+quitButtonHeight ) exit();
-     
+void keyPressed() {
+
+if ( key == 'p' || key == 'P' ) {
+   if ( song1.isPlaying() ) {
+     song1.pause();
+    } else if ( song1.position() == song1.length() ) {
+    song1.rewind();   
+    song1.play();
+    } else {
+      song1.play();
+  //Play
+    }
+  }
+  //
+  if ( key == 's' || key == 'S' ) {
+    if ( song1.isPlaying() ) {
+    song1.pause();
+    song1.rewind();
+  } else if ( song1.position() == song1.length() ) {
+    song1.rewind();
+  } else {
+    song1.rewind();
+  }
+ }
+ 
+ if ( key == 'f' || key == 'f' ) song1.skip(1000);
+ if ( key == 'r' || key == 'R' ) song1.skip(-1000);
 }
+
+ 
+     
 // ================================================
+  void mouseClicked() { 
   
+  quitButtonMouseClicked();
+  }
