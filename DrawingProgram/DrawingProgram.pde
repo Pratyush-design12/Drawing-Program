@@ -1,3 +1,4 @@
+ColorPicker cp;
 
 import ddf.minim.*;
 import ddf.minim.analysis.*;
@@ -8,6 +9,10 @@ import ddf.minim.ugens.*;
 
 
 Minim minim;
+
+  // Quit button variables
+  float quitButtonX, quitButtonY, quitButtonWidth, quitButtonHeight;
+
 float drawingSurfaceX, drawingSurfaceY, drawingSurfaceWidth, drawingSurfaceHeight;
 float drawingDiameter;
 color buttonColour, resetWhite=#FFFFFF;
@@ -30,33 +35,36 @@ float masterStroke= 1;
 //AudioPlayer[] song = new AudioPlayer[numberOfSongs];
 //AudioMetaData[] songMetaData = new AudioMetaData[numberOfSongs];
 float PauseButtonX1, PauseButtonY1, PauseButtonDiameter;
+int loopIntNum = 1;
 
 //Global Variables 
 AudioPlayer song1;
 
 void setup()
 {
+  textSetup();
   fullScreen();
   smooth();
   background(#A29F9F);
-
+  frameRate( 100 );
   minim = new Minim(this);
   song1 = minim.loadFile("Sample.mp3");
   song1.play();
-  
-  quitButtonSetup();
 
-
-  
-  //Load a soundfile 
-  
+  cp = new ColorPicker( 10, 10, 225, 225, 255 );
  
-      
   drawingSurfaceX = width*1/11;
   drawingSurfaceY = height*0.08;
   drawingSurfaceWidth = width*8/9;
   drawingSurfaceHeight = height*9/10;
   fill(white);
+  
+   // Quit Button Location
+  
+  quitButtonX = width*18.3/19;
+  quitButtonY = height*0.1/300;
+  quitButtonWidth = width*1/27;
+  quitButtonHeight = height*1/27;
   
    rect(drawingSurfaceX, drawingSurfaceY, drawingSurfaceWidth, drawingSurfaceHeight);
   
@@ -65,7 +73,21 @@ void setup()
 
 void draw(){
   
+  //Quit Button (Draw)
   
+  if ( mouseX>quitButtonX && mouseX<quitButtonX+quitButtonWidth && mouseY>quitButtonY && mouseY<quitButtonY+quitButtonHeight ) { 
+    buttonColour = circleRed;
+  } else { 
+    buttonColour = resetWhite;
+  } 
+  fill(buttonColour);
+  rect(quitButtonX, quitButtonY, quitButtonWidth, quitButtonHeight);
+  textDraw();
+  fill(black);
+  //
+   
+  
+  cp.render();
   
   strokeWeight(1);
   fill(redC );
@@ -172,10 +194,100 @@ void draw(){
   oldX=pmouseX;
   oldY=pmouseY;
   
-  quitButtonDraw();
   
- }              
   
+ }          
+ //------------------------------------------> Main Color wheel Code
+ 
+
+public class ColorPicker 
+{
+  int x, y, w, h, c;
+  PImage cpImage;
+  
+  public ColorPicker ( int x, int y, int w, int h, int c )
+  {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.c = c;
+    
+    cpImage = new PImage( w, h );
+    
+    init();
+  }
+  
+  private void init ()
+  {
+    // draw color.
+    int cw = w - 60;
+    for( int i=0; i<cw; i++ ) 
+    {
+      float nColorPercent = i / (float)cw;
+      float rad = (-360 * nColorPercent) * (PI / 180);
+      int nR = (int)(cos(rad) * 127 + 128) << 16;
+      int nG = (int)(cos(rad + 2 * PI / 3) * 127 + 128) << 8;
+      int nB = (int)(Math.cos(rad + 4 * PI / 3) * 127 + 128);
+      int nColor = nR | nG | nB;
+      
+      setGradient( i, 0, 1, h/2, 0xFFFFFF, nColor );
+      setGradient( i, (h/2), 1, h/2, nColor, 0x000000 );
+    }
+    
+    // draw black/white.
+    drawRect( cw, 0,   30, h/2, 0xFFFFFF );
+    drawRect( cw, h/2, 30, h/2, 0 );
+    
+    // draw grey scale.
+    for( int j=0; j<h; j++ )
+    {
+      int g = 255 - (int)(j/(float)(h-1) * 255 );
+      drawRect( w-30, j, 30, 1, color( g, g, g ) );
+    }
+  }
+
+  private void setGradient(int x, int y, float w, float h, int c1, int c2 )
+  {
+    float deltaR = red(c2) - red(c1);
+    float deltaG = green(c2) - green(c1);
+    float deltaB = blue(c2) - blue(c1);
+
+    for (int j = y; j<(y+h); j++)
+    {
+      int c = color( red(c1)+(j-y)*(deltaR/h), green(c1)+(j-y)*(deltaG/h), blue(c1)+(j-y)*(deltaB/h) );
+      cpImage.set( x, j, c );
+    }
+  }
+  
+  private void drawRect( int rx, int ry, int rw, int rh, int rc )
+  {
+    for(int i=rx; i<rx+rw; i++) 
+    {
+      for(int j=ry; j<ry+rh; j++) 
+      {
+        cpImage.set( i, j, rc );
+      }
+    }
+  }
+  
+  public void render ()
+  {
+    image( cpImage, x, y );
+    if( mousePressed &&
+  mouseX >= x && 
+  mouseX < x + w &&
+  mouseY >= y &&
+  mouseY < y + h )
+    {
+      c = get( mouseX, mouseY );
+    }
+    fill( c );
+    rect( x, y+h+10, 20, 20 );
+  }
+}
+   
+  //--------------------------------------------------------------------------->
 void keyPressed() {
 
 if ( key == 'p' || key == 'P' ) {
@@ -203,12 +315,15 @@ if ( key == 'p' || key == 'P' ) {
  
  if ( key == 'f' || key == 'f' ) song1.skip(1000);
  if ( key == 'r' || key == 'R' ) song1.skip(-1000);
+ if ( key == 'l' || key == 'L' ) song1.loop(loopIntNum);
 }
 
  
      
 // ================================================
-  void mouseClicked() { 
-  
-  quitButtonMouseClicked();
+  void mouseClicked() {
   }
+ void mousePressed() { 
+   // Press to Exit
+  if ( mouseX>quitButtonX && mouseX<quitButtonX+quitButtonWidth && mouseY>quitButtonY && mouseY<quitButtonY+quitButtonHeight ) exit();
+ }
