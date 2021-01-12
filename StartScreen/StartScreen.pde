@@ -4,11 +4,11 @@ int startTimeMs;
 final int startDelayMs = 5000;
 boolean atStartup = true;
  
-int gameWidth = 1200;
-int gameHeight = 600;
+int gameWidth = 600;
+int gameHeight = 300;
  
 void setup(){
-  size(gameWidth, gameHeight);
+  size(600, 300);
   // Current time, in milliseconds
   startTimeMs = millis();
 }
@@ -28,12 +28,12 @@ void draw(){
   background(240);
   fill(0);
   textAlign(CENTER,CENTER);
-  text("GO!", gameWidth/2, gameHeight/2);
+  text("Welcome to DrawSpace!", gameWidth/2, gameHeight/2);
 }
  
 void startScreen(int remainingTimeMs){
   background(50);
-  textSize(100);
+  textSize(50);
   fill(0);
   textAlign(CENTER,CENTER);
   // Show the remaining time, in seconds;
