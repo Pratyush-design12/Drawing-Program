@@ -1,7 +1,7 @@
 FloodFill1 myFloodFill ;
 ColorPicker cp;
 int startTimeMs;
-
+int x, y, w, h, c;
 import ddf.minim.*;
 import ddf.minim.analysis.*;
 import ddf.minim.effects.*;
@@ -214,21 +214,26 @@ void draw() {
       }
     }
     strokeWeight(1);
-  }
+  }// x, y+h+10, 20, 20 
   if (mousePressed) {
-    if (mouseX > 250 && mouseX <300) {
-      if (mouseY > 10 && mouseY <60) {
+  if(mouseX > 250 && mouseX <300){
+      if (mouseY > 10 && mouseY <60){
         rect(drawingSurfaceX, drawingSurfaceY, drawingSurfaceWidth, drawingSurfaceHeight);
       }
     }
   }
-  if (mousePressed) {
+  /* Possible draw code
+  if ( mousePressed &&
+      mouseX >= x && 
+      mouseX < x + w &&
+      mouseY >= y &&
+      mouseY < y + h ) {
     line(mouseX, mouseY, oldX, oldY);
   }
-
-oldX=pmouseX;
-oldY=pmouseY;
-
+  
+oldX=mouseX;
+oldY=mouseY;
+*/
 //if ( mouseX>drawingSurfaceX  && mouseX<drawingSurfaceX+drawingSurfaceWidth  && mouseY>drawingSurfaceY && mouseY<drawingSurfaceY+drawingSurfaceHeight) {
 //  println("drawing surface");
 //  if (stroke == false) {
@@ -461,6 +466,8 @@ void keyPressed() {
 // ================================================
 void mouseClicked() {
 }
+
+// Press for quit button
 void mousePressed() { 
   // Press to Exit
   if ( mouseX>quitButtonX && mouseX<quitButtonX+quitButtonWidth && mouseY>quitButtonY && mouseY<quitButtonY+quitButtonHeight ) exit();

@@ -89,7 +89,7 @@ void draw(){
   
   cp.render();
   
-  strokeWeight(1);
+  /*strokeWeight(1);
   fill(redC );
   rect(10, 10, 25, 25 );
   fill(blueC );
@@ -113,7 +113,7 @@ void draw(){
   fill(white);
   rect(10, 135, 25, 25);
   fill(black);
-  rect(35, 135, 25, 25);
+  rect(35, 135, 25, 25);*/
   line(450, 30, 500, 30);
   strokeWeight(4);
   line(450, 50, 500, 50);
@@ -123,7 +123,7 @@ void draw(){
   fill(255);
   rect(250, 10, 50, 50);
   
-  if(mousePressed) {
+  /*if(mousePressed) {
     if(mouseX > 10 && mouseX < 35){
       if(mouseY >10 && mouseY < 35){
         stroke(redC);
@@ -163,7 +163,7 @@ void draw(){
       if(mouseY >135 && mouseY <160){
         stroke(black);
       }
-    }
+    }*/
     if(mousePressed){
       if(mouseX > 450 && mouseX <500){
         if(mouseY >10 && mouseY <40){
@@ -189,7 +189,6 @@ void draw(){
   }
   if(mousePressed){
   line(mouseX, mouseY, oldX, oldY);
-  }
   }
   oldX=pmouseX;
   oldY=pmouseY;
