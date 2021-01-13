@@ -188,8 +188,8 @@ void draw(){
     }
   }
   if(mousePressed){
-  line(mouseX, mouseY, pmouseX, pmouseY);
   stroke(cp.penTool);
+  line(mouseX, mouseY, pmouseX, pmouseY);
 
   
   
@@ -285,7 +285,6 @@ public class ColorPicker
     fill( c );
     rect( x, y+h+10, 20, 20 );
     penTool = color (c); //Casting Color and pentool dont work together
-    println("c");
   }
 }
    
