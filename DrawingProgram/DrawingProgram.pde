@@ -188,10 +188,9 @@ void draw(){
     }
   }
   if(mousePressed){
-  line(mouseX, mouseY, oldX, oldY);
-  }
-  oldX=pmouseX;
-  oldY=pmouseY;
+  line(mouseX, mouseY, pmouseX, pmouseY);
+  stroke(cp.penTool);
+
   
   
   
@@ -201,6 +200,7 @@ void draw(){
 
 public class ColorPicker 
 {
+  color penTool;
   int x, y, w, h, c;
   PImage cpImage;
   
@@ -212,6 +212,7 @@ public class ColorPicker
     this.h = h;
     this.c = c;
     
+    this.penTool = c;
     cpImage = new PImage( w, h );
     
     init();
@@ -283,6 +284,8 @@ public class ColorPicker
     }
     fill( c );
     rect( x, y+h+10, 20, 20 );
+    penTool = color (c); //Casting Color and pentool dont work together
+    println("c");
   }
 }
    
