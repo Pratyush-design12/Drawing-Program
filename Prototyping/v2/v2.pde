@@ -11,10 +11,18 @@ import ddf.minim.ugens.*;
 // We need these to know if CTRL/SHIFT are pressed
 // Quit button variables
 
+Boolean draw=false;
+float drawingSurfaceX, drawingSurfaceY, drawingSurfaceWidth, drawingSurfaceHeight;
+float drawingDiameter;
+
 float quitButtonX, quitButtonY, quitButtonWidth, quitButtonHeight;
 color buttonColour, resetWhite=#FFFFFF;
 color circleRed = #FF0303;
-
+float masterStroke= 1;
+//undo 
+float undoX, undoY, undoWidth, undoHeight;
+//redo
+float redoX, redoY, redoWidth, redoHeight;
 
 float oldX;
 float oldY;
@@ -32,6 +40,7 @@ AudioPlayer song1;
 
 Minim minim;
 Undo undo;
+
  
 void setup() {
   textSetup();
@@ -50,12 +59,30 @@ void setup() {
   quitButtonWidth = width*1/27;
   quitButtonHeight = height*1/27;
   
+  //undo
+  undoX = width*13/30;
+  undoY = height*2/20;
+  undoWidth = width*1/30;
+  undoHeight = height*1.5/30;
+  //redo
+  redoX = width*15/30;
+  redoY = height*2/20;
+  redoWidth = width*1/30;
+  redoHeight = height*1.5/30;
 
+  drawingSurfaceX = width*1/11;
+  drawingSurfaceY = height*0.08;
+  drawingSurfaceWidth = width*8/9;
+  drawingSurfaceHeight = height*9/10;
+  fill(255);
   
+  
+  rect(drawingSurfaceX, drawingSurfaceY, drawingSurfaceWidth, drawingSurfaceHeight);
   
   undo = new Undo(10);
   //UndoI = loadImage("UndoI.png");
- // RedoI = loadImage("RedoI.png");
+ //RedoI = loadImage("RedoI.png");
+ 
     cp = new ColorPicker( 10, 10, 225, 225, 255 );
 }
 void draw() {
@@ -72,15 +99,39 @@ void draw() {
   textDraw();
   fill(0);
   //
-
-
-    if(mousePressed){
+  
+  line(450, 30, 500, 30);
+  strokeWeight(4);
+  line(450, 50, 500, 50);
+  strokeWeight(8);
+  line(450, 80, 500, 80);
+  strokeWeight(1);
+  fill(255);
+  
+  
+  rect(250, 10, 50, 50);
+ if(mousePressed){
+      if(mouseX > 450 && mouseX <500){
+        if(mouseY >10 && mouseY <40){
+          masterStroke= 1; }
+        }
+      if(mouseX > 450 && mouseX <500){
+        if(mouseY >40 && mouseY <70){
+          masterStroke= 4; }
+      }
+      if(mouseX > 450 && mouseX <500){
+        if(mouseY > 70 && mouseY <100){
+          masterStroke= 7;
+      }  
+    }
+    strokeWeight(masterStroke);
+    }
+    if (draw == true && mouseX>drawingSurfaceX  && mouseX<drawingSurfaceX+drawingSurfaceWidth  && mouseY>drawingSurfaceY && mouseY<drawingSurfaceY+drawingSurfaceHeight) {
     stroke(cp.penTool);
-  line(mouseX, mouseY, oldX, oldY);
-  }
-  oldX=pmouseX;
-  oldY=pmouseY;
+    line(mouseX, mouseY, pmouseX, pmouseY);
 
+    }
+    
  cp.render();
     
   
@@ -119,7 +170,7 @@ void keyPressed() {
     saveFrame("image####.png");
   }
   
-  if ( key == 'p' || key == 'P' ) {
+  if ( key == ' ' )    println("[space]");{ // Press Space to PAUSE & PLAY
    if ( song1.isPlaying() ) {
      song1.pause();
     } else if ( song1.position() == song1.length() ) {
@@ -322,4 +373,14 @@ public class ColorPicker
  void mousePressed() { 
    // Press to Exit
   if ( mouseX>quitButtonX && mouseX<quitButtonX+quitButtonWidth && mouseY>quitButtonY && mouseY<quitButtonY+quitButtonHeight ) exit();
+ 
+ if ( mouseX>drawingSurfaceX  && mouseX<drawingSurfaceX+drawingSurfaceWidth  && mouseY>drawingSurfaceY && mouseY<drawingSurfaceY+drawingSurfaceHeight) {
+    println("drawing surface");
+    if (draw == false) {
+      draw = true;
+    } else {
+      draw = false;
+    }
+ 
+ }
  }
