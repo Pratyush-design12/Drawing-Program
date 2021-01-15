@@ -21,14 +21,6 @@ void undoButton() {
     stroke (reset);
     fill(reset);
     undoInfo();
-  } else {
-    strokeWeight(4);
-    stroke (circleRed);
-    fill (circleRed);
-    rect(undoX, undoY, undoWidth, undoHeight);
-    stroke (reset);
-    fill(reset);
-    undoInfo();
   }
 }//end of Undo-button
 
@@ -52,14 +44,6 @@ void redoButton() {
   if (mouseX>redoX && mouseX<redoX+redoWidth  && mouseY>redoY && mouseY<redoY+redoHeight) {
     stroke (buttonColour);
     fill (buttonColour);
-    rect(redoX, redoY, redoWidth, redoHeight);
-    stroke (reset);
-    fill(reset);
-    redoInfo();
-  } else {
-    strokeWeight(4);
-    stroke (circleRed);
-    fill (circleRed);
     rect(redoX, redoY, redoWidth, redoHeight);
     stroke (reset);
     fill(reset);

@@ -21,13 +21,5 @@ void quitButton() {
     stroke (reset);
     fill(reset);
     quitButtonText();
-  } else {
-    strokeWeight(4);
-    stroke (circleRed);
-    fill (circleRed);
-    rect(quitButtonX, quitButtonY, quitButtonWidth, quitButtonHeight);
-    stroke (reset);
-    fill(reset);
-    quitButtonText();
   }
 }//end of quitButton

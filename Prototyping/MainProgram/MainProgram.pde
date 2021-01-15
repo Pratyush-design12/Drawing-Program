@@ -16,16 +16,23 @@ import ddf.minim.ugens.*;
 
 // for image saving
 int counter=0;
-//Quit buttton variables
+
+//Quit & Undo & Redo & Reset Button Variables
 float quitButtonX, quitButtonY, quitButtonWidth, quitButtonHeight;
 color buttonColour, resetWhite=#FFFFFF;
 color circleRed = #FF0303;
 float reset = #FFFFFF;
-//Undo & Redo
+float ResetX, ResetY, ResetWidth, ResetHeight;
 float undoX, undoY, undoWidth, undoHeight;
 float redoX, redoY, redoWidth, redoHeight;
 boolean controlDown = false;
 boolean shiftDown = false;
+
+//Canvas Variables
+Boolean draw=false;
+float drawingSurfaceX, drawingSurfaceY, drawingSurfaceWidth, drawingSurfaceHeight;
+float drawingDiameter;
+
 // Background Song
 float PauseButtonX1, PauseButtonY1, PauseButtonDiameter;
 int loopIntNum = 1;
@@ -48,11 +55,13 @@ void setup() {
   // Sound File
  
   minim = new Minim(this);
-  song1 = minim.loadFile("Sample.mp3");
+  song1 = minim.loadFile("../BackgroundMusic&SoundEffects/Sample.mp3");
   song1.play();
   
   // COLOR WHEEL SIZE
   cp = new ColorPicker( 10, 10, 225, 225, 255 );
+  
+   undo = new Undo(10);
   
 }
 // DRAW < ================================================ >
@@ -68,6 +77,12 @@ void mousePressed() {
 
   
 }
+// Mouse Released  < ================================================ >
+void mouseReleased() {
+  // Save each line we draw to our stack of UNDOs
+  undo.takeSnap();
+}
+
 //  KeyPressed  < ================================================ >
 
 void keyPressed() {
