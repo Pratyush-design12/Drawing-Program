@@ -1,7 +1,7 @@
 void undoInfo() {
   String undoText="Undo";
   PFont undoFont;
-  undoFont = createFont ("Gabriola", 60);
+  undoFont = createFont ("Arial", 60);
   //
   fill(buttonColour);
   textAlign(CENTER, CENTER);
@@ -28,7 +28,7 @@ void undoButton() {
 void redoInfo() {
   String redoText="Redo";
   PFont redoFont;
-  redoFont = createFont ("Gabriola", 60);
+  redoFont = createFont ("Arial", 60);
   //
   fill(buttonColour);
   textAlign(CENTER, CENTER);
