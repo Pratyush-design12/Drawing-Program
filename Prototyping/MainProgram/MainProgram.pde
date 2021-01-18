@@ -1,9 +1,6 @@
 //Credits : //<>//
 
 
-//ControlP5 GUI LIBRARY
-import controlP5.*;
-
 //Minim Library
 import ddf.minim.*;
 import ddf.minim.analysis.*;
@@ -41,6 +38,7 @@ float PauseButtonX1, PauseButtonY1, PauseButtonDiameter;
 int loopIntNum = 1;
 
 //Global Variables 
+
 FloodFill1 myFloodFill;
 AudioPlayer song1;
 Minim minim;
@@ -49,6 +47,7 @@ ColorPicker cp;
 
 
 void setup() {
+  
   
   population();
   textSetup();
@@ -63,12 +62,16 @@ void setup() {
   song1 = minim.loadFile("../BackgroundMusic&SoundEffects/Sample.mp3");
   song1.play();
   
-  // COLOR WHEEL SIZE
+  //COLOR WHEEL SIZE
   cp = new ColorPicker( 10, 10, 225, 225, 255 );
-  // Undo
-   undo = new Undo(10);
+  //UNDO
+  undo = new Undo(10);
+   
   //Canvas
   rect(drawingSurfaceX, drawingSurfaceY, drawingSurfaceWidth, drawingSurfaceHeight);
+ 
+  //ClearCanvas
+  rect(ResetX, ResetY, ResetWidth, ResetHeight);
   
 }
 // DRAW < ================================================ >
@@ -100,6 +103,7 @@ void draw() {
     updatePixels();
   }*/
 
+  //clearButton()
 }
 // Mouse Pressed  < ================================================ >
 
@@ -128,6 +132,15 @@ void mouseReleased() {
 //  KeyPressed  < ================================================ >
 
 void keyPressed() {
+  
+  /*/Save Button
+   case "Save":
+      //// Save image here 
+      String fileName = "savedImage-" + nf(counter, 3) + ".png";
+      println("saving "+fileName); 
+      save(fileName);
+      counter++;
+      break;*/
   
   //Music control Buttons
   
@@ -286,6 +299,7 @@ public class ColorPicker
     penTool = color(c);
   }
 }
+
 
 // Class for UNDO & REDO <---------------------------------------------------->
 

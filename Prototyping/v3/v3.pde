@@ -1,4 +1,3 @@
-int mode=-1;
 
 // for image saving
 int counter=0;  
@@ -14,11 +13,7 @@ color[] rectCol = new color[20];
 // command buttons !!!!!!!!!!!!!!
 String[] namesOfCommands = {
   "Save", 
-  "Pipette", 
-  "straight line", 
-  "rectangle", 
-  "spray paint", 
-  "ellipse"
+  
 };
 CellForCommandButton[] buttons = new CellForCommandButton[namesOfCommands.length];
 
@@ -88,8 +83,7 @@ void draw() {
   rect(0, height-30, 
     width, 40); 
   fill(255, 0, 0); 
-  text("Mode is "+mode, 
-    50, height-19);
+   
 }
 
 // -----------------------------------------------------------------------------
@@ -126,42 +120,9 @@ void mousePressed() {
       save(fileName);
       counter++;
       break;
-
-    case "Pipette":
-      mode=0; 
-      break;
-
-    case "straight line":
-      mode=1; 
-      break;
-
-      //case "line":
-      //  mode=2; 
-      //  break;
-
-    case "rectangle":
-      mode=2; 
-      break;
-
-    case "spray paint":
-      mode=3; 
-      break;
-
-    case "ellipse":
-      mode=4; 
-      break;
-
-    case "NONE":
-      //ignore
-      mode=-1; 
-      break; 
-
-    default: 
-      println("Erro 19");
-      break;
-    }//switch
     //
-  }//if
+  }
+    }
 }//func 
 
 void mouseDragged() {

@@ -14,5 +14,12 @@ void population() {
   quitButtonY = height*0.1/300;
   quitButtonWidth = width*1/27;
   quitButtonHeight = height*1/27;
+  
+  //ClearCanvasButton Location
+  
+  ResetX = width*250;
+  ResetY = height*50;
+  ResetWidth = width*10;
+  ResetHeight = height*10;
 
 }
