@@ -37,6 +37,12 @@ float drawingDiameter;
 float PauseButtonX1, PauseButtonY1, PauseButtonDiameter;
 int loopIntNum = 1;
 
+String[] namesOfCommands = {
+  "Reset", "Save",
+  
+};
+CellForCommandButton[] buttons = new CellForCommandButton[namesOfCommands.length];
+
 //Global Variables 
 
 FloodFill1 myFloodFill;
@@ -55,6 +61,14 @@ void setup() {
   background(#A29F9F);
   frameRate ( 100 );
   //noFill();
+  
+   // command buttons !!!!!!!!!!!!!!
+  for (int j=0; j<buttons.length; j++) {
+    // j is y here 
+    buttons[j] = new CellForCommandButton(width-120, j*45+5, 
+      100, 40, 
+      namesOfCommands[j] );
+  }//for 
   
   // Sound File
  
@@ -103,7 +117,11 @@ void draw() {
     updatePixels();
   }*/
 
-  //clearButton()
+    // command buttons !!!!!!!!!!!!!!
+  for (CellForCommandButton currentButton : buttons) {
+    currentButton.display();
+  }
+  
 }
 // Mouse Pressed  < ================================================ >
 
@@ -122,6 +140,32 @@ void mousePressed() {
   // Press to Exit
   if ( mouseX>quitButtonX && mouseX<quitButtonX+quitButtonWidth && mouseY>quitButtonY && mouseY<quitButtonY+quitButtonHeight ) exit();
   
+    // command buttons !!!!!!!!!!!!!!
+  // Check mouseX/mouseY against button position/size
+  String foundCMD="NONE"; 
+  for (CellForCommandButton currentButton : buttons) {
+    foundCMD = currentButton.checkMouseOver();  
+    if (!foundCMD.equals("NONE") ) {
+      break;
+    }//if
+  }//for
+
+  // if found a command 
+  if  (!foundCMD.equals("NONE") ) {
+    println(foundCMD); 
+    // eval cmd 
+    switch(foundCMD) {
+    case "Save":
+      //// Save image here 
+      String fileName = "savedImage-" + nf(counter, 3) + ".png";
+      println("saving "+fileName); 
+      save(fileName);
+      counter++;
+      break;
+    //
+  }
+    }
+  
 }
 // Mouse Released  < ================================================ >
 void mouseReleased() {
@@ -132,15 +176,7 @@ void mouseReleased() {
 //  KeyPressed  < ================================================ >
 
 void keyPressed() {
-  
-  /*/Save Button
-   case "Save":
-      //// Save image here 
-      String fileName = "savedImage-" + nf(counter, 3) + ".png";
-      println("saving "+fileName); 
-      save(fileName);
-      counter++;
-      break;*/
+
   
   //Music control Buttons
   
@@ -485,5 +521,48 @@ void Spraybrush () {
   } // func
 } // class
 // ----------------------------------------------------------
- 
- 
+class CellForCommandButton {
+
+  // for the Command Buttons !!!!!!!!!
+
+  float x, y, 
+    w, h;
+  String textCommandButton=""; 
+
+  CellForCommandButton (float tempX, float tempY, 
+    float tempW, float tempH, 
+    String tempText1) {
+    x = tempX;
+    y = tempY;
+    w = tempW;
+    h = tempH;
+    textCommandButton = tempText1;
+  }
+
+  void display() {
+    // rect 
+    stroke(0);
+    strokeWeight(1);
+    fill(111); 
+    rect(x, y, w, h);
+
+    //text 
+    fill(255);
+    textAlign(CENTER, CENTER); 
+    text(textCommandButton, 
+      x+w/2, y+h/2);
+  }
+
+  String checkMouseOver() {
+    if (mouseX > x &&
+      mouseX < x+w && 
+      mouseY > y && 
+      mouseY < y+h) {
+      return textCommandButton;
+    }//if
+    return "NONE";
+  }//method
+  //
+}//class
+//
+// ==============================================================================
