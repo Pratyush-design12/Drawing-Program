@@ -14,6 +14,10 @@ import ddf.minim.ugens.*;
 //Spray Button
 final int maxIterations = 50;  // that's how fast spraying happens
 
+//music
+float musicX, musicY, musicWidth, musicHeight;
+color music = #DE61E0;
+
 // for image saving
 int counter=0;
 
@@ -34,8 +38,24 @@ float drawingSurfaceX, drawingSurfaceY, drawingSurfaceWidth, drawingSurfaceHeigh
 float drawingDiameter;
 
 // Background Song
-float PauseButtonX1, PauseButtonY1, PauseButtonDiameter;
-int loopIntNum = 1;
+//play button
+float playX, playY, playDiameter;
+//next button
+float nextX, nextY, nextDiameter;
+//previous button
+float previousX, previousY, previousDiameter;
+int numberOfSongs = 6;
+AudioPlayer[] song = new AudioPlayer[numberOfSongs];
+int currentSong = numberOfSongs - numberOfSongs;
+//
+int numberOfSounds = 1;
+AudioPlayer[] sound = new AudioPlayer[numberOfSounds];
+int currentSound = numberOfSongs - numberOfSongs;
+//
+//
+boolean play;
+boolean playButton;
+boolean penTool = false;
 
 String[] namesOfCommands = {
   
@@ -79,8 +99,15 @@ void setup() {
   // Sound File
  
   minim = new Minim(this);
-  song1 = minim.loadFile("../BackgroundMusic&SoundEffects/Sample.mp3");
-  song1.play();
+  song[1] = minim.loadFile("../BackgroundMusic&SoundEffects/song1.mp3");
+  song[2] = minim.loadFile("../BackgroundMusic&SoundEffects/song2.mp3");
+  song[3] = minim.loadFile("../BackgroundMusic&SoundEffects/song3.mp3");
+  song[4] = minim.loadFile("../BackgroundMusic&SoundEffects/song4.mp3");
+  song[5] = minim.loadFile("../BackgroundMusic&SoundEffects/song5.mp3");
+  song[6] = minim.loadFile("../BackgroundMusic&SoundEffects/Sample.mp3");
+ 
+  minim = new Minim(this);
+  sound[1] = minim.loadFile("../BackgroundMusic&SoundEffects/Sound Effects");
   
   //COLOR WHEEL SIZE
   cp = new ColorPicker( 10, 10, 225, 225, 255 );
@@ -97,6 +124,8 @@ void setup() {
 // DRAW < ================================================ >
 
 void draw() {
+  
+   //resetButton();
   
     if (draw == true && mouseX>drawingSurfaceX  && mouseX<drawingSurfaceX+drawingSurfaceWidth  && mouseY>drawingSurfaceY && mouseY<drawingSurfaceY+drawingSurfaceHeight) {
     stroke(cp.penTool);
@@ -144,7 +173,8 @@ void mousePressed() {
  }
   
   // Press to Exit
-  if ( mouseX>quitButtonX && mouseX<quitButtonX+quitButtonWidth && mouseY>quitButtonY && mouseY<quitButtonY+quitButtonHeight ) exit();
+  if ( mouseX>quitButtonX && mouseX<quitButtonX+quitButtonWidth && mouseY>quitButtonY && mouseY<quitButtonY+quitButtonHeight ) sound[1].play();
+  sound[1].rewind(); exit(); 
   
     // command buttons !!!!!!!!!!!!!!
   // Check mouseX/mouseY against button position/size
@@ -211,7 +241,7 @@ void keyPressed() {
  
  if ( key == 'f' || key == 'f' ) song1.skip(1000);
  if ( key == 'r' || key == 'R' ) song1.skip(-1000);
- if ( key == 'l' || key == 'L' ) song1.loop(loopIntNum);
+ //if ( key == 'l' || key == 'L' ) song1.loop(loopIntNum);
  
    //UNDO AND REDO
   if (key == CODED) {
