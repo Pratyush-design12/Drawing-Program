@@ -38,8 +38,14 @@ float PauseButtonX1, PauseButtonY1, PauseButtonDiameter;
 int loopIntNum = 1;
 
 String[] namesOfCommands = {
-  "Reset", "Save",
   
+   "Save",
+   "Reset",
+   "Line Art",
+   "Rectangle",
+   "Triangle",
+   "Circle",
+   
 };
 CellForCommandButton[] buttons = new CellForCommandButton[namesOfCommands.length];
 

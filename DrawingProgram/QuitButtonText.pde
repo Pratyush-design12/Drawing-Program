@@ -6,7 +6,7 @@ void textSetup() {
 }
 
 void textDraw() { 
-  fill(black); 
+  fill(0); 
   textAlign (CENTER, CENTER); 
   textFont(titleFont, 20); 
   text(buttonText, quitButtonX, quitButtonY, quitButtonWidth, quitButtonHeight);
