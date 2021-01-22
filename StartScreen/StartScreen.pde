@@ -1,19 +1,35 @@
 int startTimeMs;
 // The time until the game starts, in milliseconds
 // (easy to convert to seconds, sec = ms/1000)
-final int startDelayMs = 5000;
+final int startDelayMs = 10000;
 boolean atStartup = true;
- 
+float Startx,Starty,Startw, Starth;
 int gameWidth = 600;
 int gameHeight = 300;
- 
+
+
 void setup(){
-  size(600, 300);
+ 
+  textSetup();
+  size(600,300);
   // Current time, in milliseconds
   startTimeMs = millis();
+  rect(Startx,Starty,Startw, Starth);
 }
  
 void draw(){
+  
+
+  fill(#FFFFFF);
+  rect(Startx,Starty,Startw, Starth);
+  textDraw();
+  fill(0);
+  
+  Startx = width*1/3;
+  Starty = height*1/3;
+  Startw = width*1/3;
+  Starth = height*1/3;
+  
   // If we're in the startup time window, show a countdown
   if (atStartup) {
     // The current time, in milliseconds
@@ -40,3 +56,15 @@ void startScreen(int remainingTimeMs){
   // show n when there are n or fewer seconds remaining. 
   text(ceil(remainingTimeMs/1000.0), gameWidth/2, gameHeight/2);
 }
+
+void mousePressed() {
+  
+    if(atStartup) {
+        //if mouse inside button, but not necessary
+        atStartup=false; 
+        return; // leave 
+    }// if
+
+    // WHAT you have in mousePressed() now
+
+}//func 

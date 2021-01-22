@@ -6,13 +6,21 @@ import ddf.minim.signals.*;
 import ddf.minim.spi.*;
 import ddf.minim.ugens.*;
 
+
 //Global Variables  <------------------------------------------------------------->
+
+//pixels[y*width+x]
+PVector v1;
+int PenPrevX,PenPrevY;
 
 //Spray Button
 final int maxIterations = 500000;  // that's how fast spraying happens
 
 // for image saving
 int counter=0;
+
+//Line Art
+PImage img1,img2,img3,img4,img5,img6,img7,img8,img9,img10;
 
 //Quit & Undo & Redo & Reset Button Variables
 float quitButtonX, quitButtonY, quitButtonWidth, quitButtonHeight;
@@ -40,11 +48,11 @@ String[] namesOfCommands = {
 
   "Rectangle", 
   "Triangle", 
-  "Line Art", 
-  "Rectangle", 
-  "Triangle", 
   "Circle", 
-  "", 
+  "LineArt", 
+  "Spray", 
+  "Fill", 
+  "Clear", 
   "Save", 
 
 };
@@ -61,12 +69,14 @@ ColorPicker cp;
 int mode = 0; // NONE
 
 void setup() {
+  
+  //PImage [] imgList = {};
 
 
   population();
   textSetup();
   fullScreen();
-  background(#A29F9F);
+  background(#A59696);
   frameRate ( 100 );
   //noFill();
 
@@ -82,7 +92,7 @@ void setup() {
 
   minim = new Minim(this);
   song1 = minim.loadFile("../BackgroundMusic&SoundEffects/Sample.mp3");
-  //  song1.play();
+  song1.play();
 
   //COLOR WHEEL SIZE
   cp = new ColorPicker( 10, 10, 225, 225, 255 );
@@ -98,8 +108,34 @@ void setup() {
 // DRAW < ================================================ >
 
   void draw() {
+    
+    //Calligraphy BrushStroke
+    
+    /*//v1=new PVector()
+    if(mousePressed){
+        //brush(pmouseX,pmouseY,mouseX,mouseY);
+        strokeWeight(1);
+        smooth();
+      for(int i=0;i<60;i++){
+      line(pmouseX+5,pmouseY-5,mouseX-5,mouseY+5);
+      line(pmouseX+4,pmouseY-4,mouseX-4,mouseY+4);
+      line(pmouseX+3,pmouseY-3,mouseX-3,mouseY+3);
+      line(pmouseX+2,pmouseY-2,mouseX-2,mouseY+2);
+      line(pmouseX+1,pmouseY-1,mouseX-1,mouseY+1);
+      line(pmouseX,pmouseY,mouseX,mouseY);
+      line(pmouseX-1,pmouseY+1,mouseX+1,mouseY-1);
+      line(pmouseX-2,pmouseY+2,mouseX+2,mouseY-2);
+      line(pmouseX-3,pmouseY+3,mouseX+3,mouseY-3);
+      line(pmouseX+4,pmouseY-4,mouseX-4,mouseY+4);
+      line(pmouseX+5,pmouseY-5,mouseX-5,mouseY+5);
+      //brush(pmouseX,pmouseY,PenPrevX,PenPrevY);
+      }
+    }
+     //PenPrevX = mouseX;
+  //PenPrevY = mouseY;//*/
+ 
 
-  if ( // draw == true &&
+if ( // draw == true &&
     mousePressed && 
     mouseX>drawingSurfaceX  &&
     mouseX<drawingSurfaceX+drawingSurfaceWidth  &&
@@ -127,14 +163,17 @@ void setup() {
       break;
 
     case 3:
-      stroke(255, 2, 2); 
+      stroke(0); 
       ellipse(mouseX, mouseY, 
         100, 100);
       break;
 
     case 4:
-      stroke(cp.penTool); 
-      // ??? to do fill !!!!!!!!!!!!!!!!!!!!!!!!
+      if (mousePressed) {
+      loadPixels();
+      myFloodFill = new FloodFill1();
+      myFloodFill.DoFill(mouseX, mouseY, color(cp.penTool));
+      updatePixels(); }
       break;
 
     case 5:
@@ -159,13 +198,6 @@ void setup() {
 
   cp.render();
 
-  /* loadPixels();
-   myFloodFill = new FloodFill1();
-   if (mousePressed) {
-   myFloodFill.DoFill(mouseX, mouseY, color(255, 0, 0));
-   updatePixels();
-   }*/
-
   // command buttons !!!!!!!!!!!!!!
   for (CellForCommandButton currentButton : buttons) {
     currentButton.display();
@@ -176,7 +208,7 @@ void setup() {
 
 void mousePressed() {
 
-  if ( mouseX>drawingSurfaceX  &&
+ if ( mouseX>drawingSurfaceX  &&
     mouseX<drawingSurfaceX+drawingSurfaceWidth  &&
     mouseY>drawingSurfaceY && 
     mouseY<drawingSurfaceY+drawingSurfaceHeight) {
@@ -236,11 +268,11 @@ void mousePressed() {
       mode = 3; 
       break; 
 
-    case "FillBucket":
+    case "Fill":
       mode=4; 
       break; 
 
-    case "SprayPaint":
+    case "Spray":
       // 
       mode = 5; 
       break; 
@@ -517,6 +549,13 @@ void Spraybrush () {
     point(x, y);
   }
 } // func
+
+void Calligraphybrush(int x1,int y1,int x2,int y2)
+{
+  strokeWeight(1);
+    line(x1+5,y1-5,x1-5,y1+5);
+    line(x2+5,y2-5,x2-5,y2+5);
+}
 
 // ----------------------------------------------------------
 

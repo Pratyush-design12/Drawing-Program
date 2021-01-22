@@ -44,7 +44,7 @@ void mouseDragged(){
   
 }
 
-void brush(int x1,int y1,int x2,int y2)
+void brush1(int x1,int y1,int x2,int y2)
 {
   strokeWeight(1);
     line(x1+5,y1-5,x1-5,y1+5);
