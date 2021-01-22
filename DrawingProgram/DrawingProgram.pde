@@ -45,6 +45,8 @@ String[] namesOfCommands = {
    "Rectangle",
    "Triangle",
    "Circle",
+   "FillBucket",
+   "SprayPaint",
    
 };
 CellForCommandButton[] buttons = new CellForCommandButton[namesOfCommands.length];
