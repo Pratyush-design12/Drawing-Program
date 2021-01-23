@@ -9,7 +9,6 @@ import ddf.minim.ugens.*;
 
 //Global Variables  <------------------------------------------------------------->
 
-//pixels[y*width+x]
 PVector v1;
 int PenPrevX,PenPrevY;
 
@@ -20,7 +19,7 @@ final int maxIterations = 500000;  // that's how fast spraying happens
 int counter=0;
 
 //Line Art
-PImage img1,img2,img3,img4,img5,img6,img7,img8,img9,img10;
+//ArrayList<PImage> img = new ArrayList();
 
 //Quit & Undo & Redo & Reset Button Variables
 float quitButtonX, quitButtonY, quitButtonWidth, quitButtonHeight;
@@ -47,9 +46,9 @@ int loopIntNum = 1;
 String[] namesOfCommands = {
 
   "Rectangle", 
+  "Calligraphy",
   "Triangle", 
   "Circle", 
-  "LineArt", 
   "Spray", 
   "Fill", 
   "Clear", 
@@ -70,9 +69,7 @@ int mode = 0; // NONE
 
 void setup() {
   
-  //PImage [] imgList = {};
-
-
+  //imgSetup();
   population();
   textSetup();
   fullScreen();
@@ -91,7 +88,7 @@ void setup() {
   // Sound File
 
   minim = new Minim(this);
-  song1 = minim.loadFile("../BackgroundMusic&SoundEffects/Sample.mp3");
+  song1 = minim.loadFile("../Music/Sample.mp3");
   song1.play();
 
   //COLOR WHEEL SIZE
@@ -109,12 +106,26 @@ void setup() {
 
   void draw() {
     
-    //Calligraphy BrushStroke
-    
-    /*//v1=new PVector()
+
+ // draw_grid();
+ 
+
+if ( draw == true &&
+    mousePressed && 
+    mouseX>drawingSurfaceX  &&
+    mouseX<drawingSurfaceX+drawingSurfaceWidth  &&
+    mouseY>drawingSurfaceY &&
+    mouseY<drawingSurfaceY+drawingSurfaceHeight) {
+
+      
+    switch (mode) {
+    case 0:
+      println("here");
+       v1=new PVector();
     if(mousePressed){
         //brush(pmouseX,pmouseY,mouseX,mouseY);
         strokeWeight(1);
+        stroke(cp.penTool);
         smooth();
       for(int i=0;i<60;i++){
       line(pmouseX+5,pmouseY-5,mouseX-5,mouseY+5);
@@ -131,23 +142,7 @@ void setup() {
       //brush(pmouseX,pmouseY,PenPrevX,PenPrevY);
       }
     }
-     //PenPrevX = mouseX;
-  //PenPrevY = mouseY;//*/
- 
-
-if ( // draw == true &&
-    mousePressed && 
-    mouseX>drawingSurfaceX  &&
-    mouseX<drawingSurfaceX+drawingSurfaceWidth  &&
-    mouseY>drawingSurfaceY &&
-    mouseY<drawingSurfaceY+drawingSurfaceHeight) {
-
-    switch (mode) {
-    case 0:
-      println("here");
-      stroke(cp.penTool);
-      stroke(255, 2, 2); 
-      line(mouseX, mouseY, pmouseX, pmouseY);
+;
       break; 
 
     case 1:
@@ -252,7 +247,7 @@ void mousePressed() {
       counter++;
       break;
 
-    case "Line Art":
+    case "Calligraphy":
       mode = 0;
       break;
 
@@ -297,6 +292,10 @@ void mouseReleased() {
 
 void keyPressed() {
 
+  /*if ( key == 'a' || key == 'A' ) {
+    // shuffle 
+    img=shuffle( img );
+  }*/
 
   //Music control Buttons
 
