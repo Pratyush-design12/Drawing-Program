@@ -188,6 +188,7 @@ if ( draw == true &&
     }//switch
   }//if
 
+      strokeWeight(1);
   if ( mouseX>quitButtonX && mouseX<quitButtonX+quitButtonWidth && mouseY>quitButtonY && mouseY<quitButtonY+quitButtonHeight ) { 
     buttonColour = circleRed;
   } else { 
@@ -244,14 +245,16 @@ void mousePressed() {
     draw = true;
     //} else {
     //  draw = false;
-    //}
-  }
-  if (mousePressed && pmouseX>25 && pmouseX<85 && pmouseY>355 && pmouseY<415){
+    }
+    if (mousePressed && pmouseX>25 && pmouseX<85 && pmouseY>355 && pmouseY<415){
     thick = constrain(thick+1,5,60); //increase the thickness when click the "plus" button
-  }else if (mousePressed && pmouseX>95 && pmouseX<155 && pmouseY>355 && pmouseY<415){
+    }else if (mousePressed && pmouseX>95 && pmouseX<155 && pmouseY>355 && pmouseY<415){
     thick = constrain(thick-1,5,60);//decrease the thickness when click the "minus" button
+    }
+    //eraser
+  if (mousePressed && pmouseX>25 && pmouseX<160 && pmouseY>700 && pmouseY<760){
+     cp.penTool = color(255);//pen color change to white when mouse pressed
   }
-
   // Press to Exit
   if ( mouseX>quitButtonX &&
     mouseX<quitButtonX+quitButtonWidth &&
