@@ -18,6 +18,9 @@ final int maxIterations = 500000;  // that's how fast spraying happens
 // for image saving
 int counter=0;
 
+//Line Art
+PImage[] imageList = new PImage[10];
+int indexImage=0;
 
 //Quit & Undo & Redo & Reset Button Variables
 float quitButtonX, quitButtonY, quitButtonWidth, quitButtonHeight;
@@ -67,7 +70,10 @@ int mode = 0; // NONE
 
 void setup() {
   
-
+    
+  imageList[i] = loadImage("img00 ("+i+").JPG" ) ;
+  imageList[i].resize(80, 0);
+  
   population();
   textSetup();
   fullScreen();
@@ -105,6 +111,10 @@ void setup() {
   void draw() {
     
     menu();
+    
+    fill(0); 
+  text("Click mouse to show an Image", 
+    13, 14);
     
 if ( draw == true &&
     mousePressed && 
@@ -235,7 +245,12 @@ if ( draw == true &&
 
 void mousePressed() {
   
+       if (indexImage<imageList.length-1)
+    image( imageList[indexImage], mouseX, mouseY);
+  indexImage++;
+  println(indexImage);
 
+  
  if ( mouseX>drawingSurfaceX  &&
     mouseX<drawingSurfaceX+drawingSurfaceWidth  &&
     mouseY>drawingSurfaceY && 
