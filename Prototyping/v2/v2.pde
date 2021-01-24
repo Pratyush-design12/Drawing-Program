@@ -112,12 +112,12 @@ if ( draw == true &&
     mouseX<drawingSurfaceX+drawingSurfaceWidth  &&
     mouseY>drawingSurfaceY &&
     mouseY<drawingSurfaceY+drawingSurfaceHeight) {
-      
 
       
     switch (mode) {
     case 0:
       println("here");
+      strokeWeight(thick);
       stroke(cp.penTool);
       line(mouseX, mouseY, pmouseX, pmouseY);
       break; 
@@ -245,6 +245,11 @@ void mousePressed() {
     //} else {
     //  draw = false;
     //}
+  }
+  if (mousePressed && pmouseX>25 && pmouseX<85 && pmouseY>355 && pmouseY<415){
+    thick = constrain(thick+1,5,60); //increase the thickness when click the "plus" button
+  }else if (mousePressed && pmouseX>95 && pmouseX<155 && pmouseY>355 && pmouseY<415){
+    thick = constrain(thick-1,5,60);//decrease the thickness when click the "minus" button
   }
 
   // Press to Exit
