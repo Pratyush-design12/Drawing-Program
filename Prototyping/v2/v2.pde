@@ -222,7 +222,7 @@ if ( draw == true &&
   rect(25, 700, 135, 60); //eraser button
 //text on the button
   fill(0);
-  text("ERASER",87,730); 
+  text("Line Art",87,730); 
   text("RESET",87,833); 
   noStroke(); 
   rect(50,360,10,50);//symbol increase thickness
@@ -251,10 +251,9 @@ void mousePressed() {
     }else if (mousePressed && pmouseX>95 && pmouseX<155 && pmouseY>355 && pmouseY<415){
     thick = constrain(thick-1,5,60);//decrease the thickness when click the "minus" button
     }
-    //eraser
-  if (mousePressed && pmouseX>25 && pmouseX<160 && pmouseY>700 && pmouseY<760){
-     cp.penTool = color(255);//pen color change to white when mouse pressed
-  }
+    //Line Art
+    
+    
   // Press to Exit
   if ( mouseX>quitButtonX &&
     mouseX<quitButtonX+quitButtonWidth &&
