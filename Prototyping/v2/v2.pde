@@ -8,7 +8,10 @@ import ddf.minim.ugens.*;
 
 
 //Global Variables  <------------------------------------------------------------->
-
+int x1;
+int y1;
+int x2;
+int y2;
 PVector v1;
 int PenPrevX,PenPrevY;
 
@@ -19,7 +22,7 @@ final int maxIterations = 50000;  // that's how fast spraying happens
 int counter=0;
 
 //Line Art
-PImage[] imageList = new PImage[10];
+PImage[] imageList = new PImage[9];
 int indexImage=0;
 int i;
 //Quit & Undo & Redo & Reset Button Variables
@@ -70,11 +73,11 @@ int mode = 0; // NONE
 
 void setup() {
   
-    
- /* for (int i=0; i<9; i++) {
+    //Line Art
+ for (int i=0; i<9; i++) {
     imageList[i] = loadImage("img00 ("+i+").jpg" ) ;
-    imageList[i].resize(80, 0);
-  }*/
+    imageList[i].resize(500, 0);
+  }
   
   population();
   textSetup();
@@ -172,11 +175,10 @@ if ( draw == true &&
       break;
       
       case 6:
-      
+     
       v1=new PVector();
     if(mousePressed){
-       // brush(pmouseX,pmouseY,mouseX,mouseY);
-        strokeWeight(thick);
+      strokeWeight(thick);
         stroke(cp.penTool);
         smooth();
       for(int i=0;i<60;i++){
@@ -191,8 +193,8 @@ if ( draw == true &&
       line(pmouseX-3,pmouseY+3,mouseX+3,mouseY-3);
       line(pmouseX+4,pmouseY-4,mouseX-4,mouseY+4);
       line(pmouseX+5,pmouseY-5,mouseX-5,mouseY+5);
-      //brush(pmouseX,pmouseY,PenPrevX,PenPrevY);
       }
+      break;
     }
     }//switch
   }//if
@@ -214,10 +216,22 @@ if ( draw == true &&
   for (CellForCommandButton currentButton : buttons) {
     currentButton.display();
   }
+  
+  fill(0);
+  text("Music Controls :", 111, 887);
+  text(" SpaceBar for Play&Pause", 115, 930);
+  text("Press F for Forward", 125, 960);
+  text("Press R for Rewind", 125, 990);
+  text("Press L for Loop", 111, 1020);
+  text("Press S for Stop", 111, 1050);
+  
 }
+
+
 
  void menu(){ //interface for the Left
 //color & thick display
+ //rect();
   stroke(cp.penTool);
   strokeWeight(thick);
   line(90,450,90,650); 
@@ -228,7 +242,7 @@ if ( draw == true &&
   rect(25, 355, 60, 60);//plus button
   rect(95, 355, 60, 60);//minus button
   rect(25, 800, 135, 60);//reset button
-  rect(25, 700, 135, 60); //eraser button
+  rect(25, 700, 135, 60); //Line Art button
 //text on the button
   fill(0);
   text("Line Art",87,730); 
@@ -237,17 +251,16 @@ if ( draw == true &&
   rect(50,360,10,50);//symbol increase thickness
   rect(30,380,50,10);//symbol increase thickness
   rect(100,380,50,10);//symbol decrease thickness
+ 
  }
+
+
 
 // Mouse Pressed  < ================================================ >
 
 
 void mousePressed() {
-  
-  /*if (indexImage<imageList.length-1)
-    image( imageList[indexImage], mouseX, mouseY);
-  indexImage++;
-  println(indexImage);*/
+
 
   
  if ( mouseX>drawingSurfaceX  &&
@@ -257,16 +270,22 @@ void mousePressed() {
     println("drawing surface");
     //if (draw == false) {
     draw = true;
-    //} else {
-    //  draw = false;
     }
     if (mousePressed && pmouseX>25 && pmouseX<85 && pmouseY>355 && pmouseY<415){
-    thick = constrain(thick+1,5,60); //increase the thickness when click the "plus" button
+    thick = constrain(thick+1,5,60);
+    line(90,450,90,650);//increase the thickness when click the "plus" button
     }else if (mousePressed && pmouseX>95 && pmouseX<155 && pmouseY>355 && pmouseY<415){
     thick = constrain(thick-1,5,60);//decrease the thickness when click the "minus" button
+    line(90,450,90,650);
     }
-    //Line Art
     
+    //Line Art rect(25, 700, 135, 60);
+    if (mousePressed && pmouseX>25 && pmouseX<160 && pmouseY>700 && pmouseY<760){
+      if (indexImage<imageList.length-1)
+    image( imageList[indexImage], mouseX, mouseY);
+  indexImage++;
+  println(indexImage);
+    }
     
   // Press to Exit
   if ( mouseX>quitButtonX &&
@@ -326,10 +345,15 @@ void mousePressed() {
       break; 
 
     case "caligraphy":
-    //
     mode = 6;
+    break; 
+    
+    default:
+      println("UNKNOWN foundCMD !!!!!!!!!!!!!!!!     "
+        +foundCMD
+        + "   +++++++++++++++++++++++++++++++++++++++++++++++++");
+      exit(); 
       break; 
-      //
     }//switch
   }
 
@@ -338,6 +362,7 @@ void mousePressed() {
     rect(drawingSurfaceX, drawingSurfaceY, drawingSurfaceWidth, drawingSurfaceHeight); }
 
 }
+
 // Mouse Released  < ================================================ >
 void mouseReleased() {
   // Save each line we draw to our stack of UNDOs
@@ -396,9 +421,9 @@ void keyPressed() {
     }
     return;
   }
-  if (key=='s') {
+ /*( if (key=='s') {
     saveFrame("image####.png");
-  }
+  }*/
 }//end of keyPressed
 
 
