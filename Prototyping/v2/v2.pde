@@ -13,7 +13,7 @@ PVector v1;
 int PenPrevX,PenPrevY;
 
 //Spray Button
-final int maxIterations = 500000;  // that's how fast spraying happens
+final int maxIterations = 50000;  // that's how fast spraying happens
 
 // for image saving
 int counter=0;
@@ -21,7 +21,7 @@ int counter=0;
 //Line Art
 PImage[] imageList = new PImage[10];
 int indexImage=0;
-
+int i;
 //Quit & Undo & Redo & Reset Button Variables
 float quitButtonX, quitButtonY, quitButtonWidth, quitButtonHeight;
 color buttonColour, resetWhite=#FFFFFF;
@@ -71,8 +71,10 @@ int mode = 0; // NONE
 void setup() {
   
     
-  imageList[i] = loadImage("img00 ("+i+").JPG" ) ;
-  imageList[i].resize(80, 0);
+ /* for (int i=0; i<9; i++) {
+    imageList[i] = loadImage("img00 ("+i+").jpg" ) ;
+    imageList[i].resize(80, 0);
+  }*/
   
   population();
   textSetup();
@@ -112,9 +114,6 @@ void setup() {
     
     menu();
     
-    fill(0); 
-  text("Click mouse to show an Image", 
-    13, 14);
     
 if ( draw == true &&
     mousePressed && 
@@ -245,10 +244,10 @@ if ( draw == true &&
 
 void mousePressed() {
   
-       if (indexImage<imageList.length-1)
+  /*if (indexImage<imageList.length-1)
     image( imageList[indexImage], mouseX, mouseY);
   indexImage++;
-  println(indexImage);
+  println(indexImage);*/
 
   
  if ( mouseX>drawingSurfaceX  &&
@@ -344,15 +343,9 @@ void mouseReleased() {
   // Save each line we draw to our stack of UNDOs
   undo.takeSnap();
 }
-
 //  KeyPressed  < ================================================ >
 
 void keyPressed() {
-
-  /*if ( key == 'a' || key == 'A' ) {
-    // shuffle 
-    img=shuffle( img );
-  }*/
 
   //Music control Buttons
 
