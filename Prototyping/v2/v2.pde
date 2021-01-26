@@ -118,20 +118,28 @@ void setup() {
     menu();
     
     
-if ( draw == true &&
-    mousePressed && 
-    mouseX>drawingSurfaceX  &&
+/*  fill(255); 
+  rect(width-43, 0, 50, 50);
+  fill(0); 
+  text(mode, 
+    width-23, 23); */
+
+    
+ if ( draw == true
+    && mousePressed  
+    && mouseX>drawingSurfaceX  &&
     mouseX<drawingSurfaceX+drawingSurfaceWidth  &&
     mouseY>drawingSurfaceY &&
-    mouseY<drawingSurfaceY+drawingSurfaceHeight) {
+    mouseY<drawingSurfaceY+drawingSurfaceHeight
+    ) {
 
-      
     switch (mode) {
     case 0:
       println("here");
       strokeWeight(thick);
       stroke(cp.penTool);
-      line(mouseX, mouseY, pmouseX, pmouseY);
+      line(mouseX, mouseY, 
+        pmouseX, pmouseY);
       break; 
 
     case 1:
@@ -160,10 +168,11 @@ if ( draw == true &&
 
     case 4:
       if (mousePressed) {
-      loadPixels();
-      myFloodFill = new FloodFill1();
-      myFloodFill.DoFill(mouseX, mouseY, color(cp.penTool));
-      updatePixels(); }
+        loadPixels();
+        myFloodFill = new FloodFill1();
+        myFloodFill.DoFill(mouseX, mouseY, color(cp.penTool));
+        updatePixels();
+      }
       break;
 
     case 5:
@@ -173,29 +182,42 @@ if ( draw == true &&
           mouseY+random(-23, 23));
       }
       break;
-      
-      case 6:
-     
+
+    case 6:
+      //  "Caligraphy"
+      // 
+      println("I am here");
       v1=new PVector();
-    if(mousePressed){
-      strokeWeight(thick);
+      if (mousePressed) {
+        strokeWeight(thick);
         stroke(cp.penTool);
         smooth();
-      for(int i=0;i<60;i++){
-      line(pmouseX+5,pmouseY-5,mouseX-5,mouseY+5);
-      line(pmouseX+4,pmouseY-4,mouseX-4,mouseY+4);
-      line(pmouseX+3,pmouseY-3,mouseX-3,mouseY+3);
-      line(pmouseX+2,pmouseY-2,mouseX-2,mouseY+2);
-      line(pmouseX+1,pmouseY-1,mouseX-1,mouseY+1);
-      line(pmouseX,pmouseY,mouseX,mouseY);
-      line(pmouseX-1,pmouseY+1,mouseX+1,mouseY-1);
-      line(pmouseX-2,pmouseY+2,mouseX+2,mouseY-2);
-      line(pmouseX-3,pmouseY+3,mouseX+3,mouseY-3);
-      line(pmouseX+4,pmouseY-4,mouseX-4,mouseY+4);
-      line(pmouseX+5,pmouseY-5,mouseX-5,mouseY+5);
+        for (int i=0; i<60; i++) {
+          line(pmouseX+5, pmouseY-5, mouseX-5, mouseY+5);
+          line(pmouseX+4, pmouseY-4, mouseX-4, mouseY+4);
+          line(pmouseX+3, pmouseY-3, mouseX-3, mouseY+3);
+          line(pmouseX+2, pmouseY-2, mouseX-2, mouseY+2);
+          line(pmouseX+1, pmouseY-1, mouseX-1, mouseY+1);
+          line(pmouseX, pmouseY, mouseX, mouseY);
+          line(pmouseX-1, pmouseY+1, mouseX+1, mouseY-1);
+          line(pmouseX-2, pmouseY+2, mouseX+2, mouseY-2);
+          line(pmouseX-3, pmouseY+3, mouseX+3, mouseY-3);
+          line(pmouseX+4, pmouseY-4, mouseX-4, mouseY+4);
+          line(pmouseX+5, pmouseY-5, mouseX-5, mouseY+5);
+        }
       }
       break;
-    }
+
+    case 7:
+      // see function mousePressed
+      break; 
+      //
+    default:
+      println("unknown mode in draw. It was "
+        + mode);
+      exit(); 
+      break;
+      //
     }//switch
   }//if
 
@@ -231,7 +253,11 @@ if ( draw == true &&
 
  void menu(){ //interface for the Left
 //color & thick display
- //rect();
+
+   fill(#A59696);
+  rect(90-35, 425, 
+    97, 270);
+    
   stroke(cp.penTool);
   strokeWeight(thick);
   line(90,450,90,650); 
@@ -262,30 +288,56 @@ if ( draw == true &&
 void mousePressed() {
 
 
-  
- if ( mouseX>drawingSurfaceX  &&
+      if (  true &&  // draw == true
+    mousePressed  &&
+    mouseX>drawingSurfaceX  &&
+    mouseX<drawingSurfaceX+drawingSurfaceWidth  &&
+    mouseY>drawingSurfaceY &&
+    mouseY<drawingSurfaceY+drawingSurfaceHeight
+    ) {
+
+    switch (mode) {
+    case 7:
+      // Line Art !!!!
+      if (indexImage<imageList.length-1) {
+        image( imageList[indexImage], mouseX, mouseY);
+        indexImage++;
+      } else {
+        println("indexImage is MAX  ++++++++++++++++++++++++");
+        text("indexImage is MAX  ++++++++++++++++++++++++++", 
+          width-400, height/2, 100, 70);
+      }
+      println(indexImage);
+      break;
+    }
+    return; // leave function
+  }
+
+  if ( mouseX>drawingSurfaceX  &&
     mouseX<drawingSurfaceX+drawingSurfaceWidth  &&
     mouseY>drawingSurfaceY && 
     mouseY<drawingSurfaceY+drawingSurfaceHeight) {
     println("drawing surface");
     //if (draw == false) {
     draw = true;
-    }
-    if (mousePressed && pmouseX>25 && pmouseX<85 && pmouseY>355 && pmouseY<415){
-    thick = constrain(thick+1,5,60);
-    line(90,450,90,650);//increase the thickness when click the "plus" button
-    }else if (mousePressed && pmouseX>95 && pmouseX<155 && pmouseY>355 && pmouseY<415){
-    thick = constrain(thick-1,5,60);//decrease the thickness when click the "minus" button
-    line(90,450,90,650);
-    }
-    
-    //Line Art rect(25, 700, 135, 60);
-    if (mousePressed && pmouseX>25 && pmouseX<160 && pmouseY>700 && pmouseY<760){
-      if (indexImage<imageList.length-1)
-    image( imageList[indexImage], mouseX, mouseY);
-  indexImage++;
-  println(indexImage);
-    }
+  }
+  if (mousePressed && pmouseX>25 && pmouseX<85 && pmouseY>355 && pmouseY<415) {
+    thick++;
+    thick = constrain(thick, 5, 60);
+    line(90, 450, 90, 650);//increase the thickness when click the "plus" button
+  } else if (mousePressed && pmouseX>95 && pmouseX<155 && pmouseY>355 && pmouseY<415) {
+    thick--; 
+    thick = constrain(thick, 5, 60);//decrease the thickness when click the "minus" button
+    line(90, 450, 90, 650);
+  }
+
+  //Line Art rect(25, 700, 135, 60);
+  if (pmouseX>25 && 
+    pmouseX<160 && 
+    pmouseY>700 && 
+    pmouseY<760) {
+    mode = 7;
+  }
     
   // Press to Exit
   if ( mouseX>quitButtonX &&
@@ -344,7 +396,7 @@ void mousePressed() {
       mode = 5; 
       break; 
 
-    case "caligraphy":
+    case "Caligraphy":
     mode = 6;
     break; 
     
